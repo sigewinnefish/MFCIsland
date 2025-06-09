@@ -1,0 +1,26 @@
+﻿#pragma once
+#include "afxdialogex.h"
+
+
+// page2 对话框
+
+class page2 : public CPropertyPage
+{
+	DECLARE_DYNAMIC(page2)
+
+public:
+	page2();
+	virtual ~page2();
+
+// 对话框数据
+#ifdef AFX_DESIGN_TIME
+	enum { IDD = IDD_PROPPAGE_2 };
+#endif
+
+protected:
+	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 支持
+
+	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnBnClickedButtonLog();
+};
