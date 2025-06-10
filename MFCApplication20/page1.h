@@ -1,6 +1,9 @@
 ﻿#pragma once
 #include "afxdialogex.h"
 #include "mainisland.h"
+#include "httprequest.h"
+#include "phasejson.h"
+
 
 // page1 对话框
 
@@ -74,4 +77,6 @@ public:
 private:
 	IslandEnvironment* pIslandEnvironment;
 
+public:
+	afx_msg void OnBnClickedButtonGetconfig();
 };

@@ -5,7 +5,8 @@
 #include "MFCApplication20.h"
 #include "afxdialogex.h"
 #include "page1.h"
-#include <thread>
+#include <vector>
+
 
 
 // page1 对话框
@@ -143,6 +144,7 @@ BEGIN_MESSAGE_MAP(page1, CPropertyPage)
 	ON_BN_CLICKED(IDC_CHECK_ShowOneDamageTextEx, &page1::OnBnClickedCheckShowonedamagetextex)
 	ON_BN_CLICKED(IDC_CHECK_RedirectCombineEntry, &page1::OnBnClickedCheckRedirectcombineentry)
 	ON_BN_CLICKED(IDC_CHECK_SwitchInputDeviceToTouchScreen, &page1::OnBnClickedCheckSwitchinputdevicetotouchscreen)
+	ON_BN_CLICKED(IDC_BUTTON_GETCONFIG, &page1::OnBnClickedButtonGetconfig)
 END_MESSAGE_MAP()
 
 
@@ -335,4 +337,12 @@ void page1::OnBnClickedCheckSwitchinputdevicetotouchscreen()
 	UpdateData(TRUE);
 	pIslandEnvironment->UsingTouchScreen = UsingTouchScreen;
 	AfxGetApp()->WriteProfileInt(_T("Settings"), _T("UsingTouchScreen"), UsingTouchScreen);
+}
+
+void page1::OnBnClickedButtonGetconfig()
+{
+	std::vector<char> config;
+	httprequest(&config);
+	phasejson(&config,pIslandEnvironment);
+	
 }
