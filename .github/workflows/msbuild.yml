@@ -36,6 +36,9 @@ jobs:
     - name: Restore NuGet packages
       working-directory: ${{env.GITHUB_WORKSPACE}}
       run: nuget restore ${{env.SOLUTION_FILE_PATH}}
+      
+    - name: Run vcpkg
+      run: ${{ github.workspace }}/vcpkg/vcpkg install --dry-run
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
