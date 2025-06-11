@@ -37,6 +37,11 @@ jobs:
 #    - name: Restore NuGet packages
 #      working-directory: ${{env.GITHUB_WORKSPACE}}
 #      run: nuget restore ${{env.SOLUTION_FILE_PATH}}
+
+    - name: Clone and bootstrap vcpkg
+      run: | 
+        git clone https://github.com/microsoft/vcpkg.git
+        .\vcpkg\bootstrap-vcpkg.bat
       
     - name: Run vcpkg
       run: ${{ github.workspace }}/vcpkg/vcpkg install --dry-run
