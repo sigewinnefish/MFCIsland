@@ -44,10 +44,12 @@ jobs:
         .\vcpkg\bootstrap-vcpkg.bat
       
     - name: Run vcpkg
-      run: ${{ github.workspace }}/vcpkg/vcpkg install
+      run: |
+        ${{ github.workspace }}/vcpkg/vcpkg install
+        vcpkg integrate install
 
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
-      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} /p:VcpkgEnableManifest=true ${{env.SOLUTION_FILE_PATH}}
+      run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
