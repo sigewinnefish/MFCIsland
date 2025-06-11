@@ -56,6 +56,6 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: MFCIsland-build
-        path: ${{ github.workspace }}\MFCIsland\MFCIsland\x64\Release\MFCIsland.exe
+        path: ${{ github.workspace }}\x64\Release\MFCIsland.exe
 
         
