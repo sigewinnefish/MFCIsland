@@ -9,15 +9,19 @@ class sheet : public CPropertySheet
 	DECLARE_DYNAMIC(sheet)
 
 public:
+	virtual BOOL OnInitDialog();
 	page1 p1;
 	page2 p2;
+	BOOL ONTOP = 0;
 
 	sheet(UINT nIDCaption, CWnd* pParentWnd = nullptr, UINT iSelectPage = 0);
 	sheet(LPCTSTR pszCaption, CWnd* pParentWnd = nullptr, UINT iSelectPage = 0);
 	virtual ~sheet();
 
 protected:
+
 	DECLARE_MESSAGE_MAP()
+	virtual void sheet::OnSysCommand(UINT nID, LPARAM lParam);
 };
 
 

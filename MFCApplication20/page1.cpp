@@ -145,6 +145,8 @@ BEGIN_MESSAGE_MAP(page1, CPropertyPage)
 	ON_BN_CLICKED(IDC_CHECK_RedirectCombineEntry, &page1::OnBnClickedCheckRedirectcombineentry)
 	ON_BN_CLICKED(IDC_CHECK_SwitchInputDeviceToTouchScreen, &page1::OnBnClickedCheckSwitchinputdevicetotouchscreen)
 	ON_BN_CLICKED(IDC_BUTTON_GETCONFIG, &page1::OnBnClickedButtonGetconfig)
+	ON_MESSAGE(WM_GAME_END, &page1::OnGameEnd)
+	ON_MESSAGE(WM_GAME_RUNNING, &page1::OnGameRunning)
 END_MESSAGE_MAP()
 
 
@@ -203,19 +205,18 @@ void page1::OnBnClickedButtonGamestart()
 	{
 		HANDLE h{};
 		startprocess(gamepath.GetString(), h);
+		SetDlgItemText(IDC_STATIC_STATUS, L"开始游戏时未勾选注入");
 	}
 	else
 	{
 		HANDLE hThread = CreateThread(NULL, 0, ThreadProc, (LPVOID)&gamepath, 0, NULL); // 创建一个子线程
+		
 		if (hThread != NULL)
 		{
 			CloseHandle(hThread);
 			hThread = NULL;
 		}
-		//startprocess(gamepath.GetString(), h);
 
-		//std::thread t(sethook, h);
-		//t.detach();
 
 	}
 
@@ -345,4 +346,16 @@ void page1::OnBnClickedButtonGetconfig()
 	httprequest(&config);
 	phasejson(&config,pIslandEnvironment);
 	
+}
+
+afx_msg LRESULT page1::OnGameEnd(WPARAM wParam, LPARAM lParam)
+{
+	SetDlgItemText(IDC_STATIC_STATUS, L"游戏进程结束");
+	return 0;
+}
+
+afx_msg LRESULT page1::OnGameRunning(WPARAM wParam, LPARAM lParam)
+{
+	SetDlgItemText(IDC_STATIC_STATUS, L"游戏正在运行");
+	return 0;
 }

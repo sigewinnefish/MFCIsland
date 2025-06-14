@@ -190,6 +190,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="appmessage.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="httprequest.h" />
     <ClInclude Include="mainisland.h" />

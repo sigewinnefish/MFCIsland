@@ -48,6 +48,9 @@
     <ClInclude Include="phasejson.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="appmessage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFCApplication20.cpp">

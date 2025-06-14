@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "mainisland.h"
+#include "appmessage.h"
+#include "sheet.h"
 
 void startprocess(CString path,HANDLE& h)
 {
@@ -49,27 +51,17 @@ static DWORD findtid(HandleData hd)
 void sethook(HANDLE h)
 {
     DWORD tid;
-
+    
     if (!loaddll(L"Snap.Hutao.dll"))
     {
-        MessageBox(
-            NULL,
-            L"Snap.Hutao.dll¼ÓÔØÊ§°Ü",
-            L"´íÎó",
-            MB_OK | MB_ICONERROR
-        );
+        AfxMessageBox(L"Snap.Hutao.dll¼ÓÔØÊ§°Ü£¬½ö½öÆô¶¯", MB_OK | MB_ICONERROR);
         return;
     }
 
     HANDLE dh = loaddll(L"Snap.Hutao.UnlockerIsland.dll");
     if (!dh)
     {
-        MessageBox(
-            NULL,
-            L"Snap.Hutao.UnlockerIsland.dll¼ÓÔØÊ§°Ü",
-            L"´íÎó",
-            MB_OK | MB_ICONERROR
-        );
+        AfxMessageBox(L"Snap.Hutao.UnlockerIsland.dll¼ÓÔØÊ§°Ü", MB_OK | MB_ICONERROR);
         return;
     }
 
@@ -106,6 +98,9 @@ DWORD WINAPI ThreadProc(LPVOID lpParameter)
 {
     HANDLE h{};
     startprocess(((CString*)lpParameter)->GetString(), h);
+    SendMessage(((sheet*)(AfxGetApp()->GetMainWnd()))->p1.m_hWnd, WM_GAME_RUNNING, 0, 0);
     sethook(h);
+    WaitForSingleObject(h, INFINITE);
+    SendMessage(((sheet*)(AfxGetApp()->GetMainWnd()))->p1.m_hWnd, WM_GAME_END, 0 ,0);
     return 0;
 }

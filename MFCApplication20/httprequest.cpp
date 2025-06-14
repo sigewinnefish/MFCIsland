@@ -48,7 +48,6 @@ void httprequest(std::vector<char>* config)
                 printf("Error %u in WinHttpReadData.\n", GetLastError());
             else
                 config->insert(config->end(), pszOutBuffer, pszOutBuffer + dwSize);
-            //printf("%s", config->data());
 
         // Free the memory allocated to the buffer.
             delete[] pszOutBuffer;

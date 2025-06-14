@@ -18,7 +18,9 @@
 
 BEGIN_MESSAGE_MAP(CMFCApplication20App, CWinApp)
 	//ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
+	
 END_MESSAGE_MAP()
+
 
 
 // CMFCApplication20App 构造
@@ -39,6 +41,7 @@ CMFCApplication20App theApp;
 
 BOOL CMFCApplication20App::InitInstance()
 {
+
 	CWinApp::InitInstance();
 
 	SetRegistryKey(_T("MFCIsland"));
@@ -66,7 +69,6 @@ BOOL CMFCApplication20App::InitInstance()
 	m_pMainWnd = s;
 
 	INT_PTR nResponse = s->Create(NULL, WS_OVERLAPPEDWINDOW, TRUE);
-	//::SetWindowPos(s->m_hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE); // 窗口置顶
 
 	s->ModifyStyle(WS_MAXIMIZEBOX, NULL, NULL); // 取消最大化按钮
 		
