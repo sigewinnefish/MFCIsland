@@ -9,6 +9,7 @@
 #include "page1.h"
 
 
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -63,8 +64,9 @@ BOOL CMFCApplication20App::InitInstance()
 	// 例如修改为公司或组织名
 	
 
-
 	sheet* s = new sheet(L"MFCIsland");
+
+	s->EnableStackedTabs(FALSE); //滚动选项卡
 
 	m_pMainWnd = s;
 

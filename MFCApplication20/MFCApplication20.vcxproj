@@ -193,6 +193,7 @@
     <ClInclude Include="appmessage.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="httprequest.h" />
+    <ClInclude Include="logserver.h" />
     <ClInclude Include="mainisland.h" />
     <ClInclude Include="MFCApplication20.h" />
     <ClInclude Include="page1.h" />
@@ -205,6 +206,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="httprequest.cpp" />
+    <ClCompile Include="logserver.cpp" />
     <ClCompile Include="mainisland.cpp" />
     <ClCompile Include="MFCApplication20.cpp" />
     <ClCompile Include="page1.cpp" />
@@ -222,6 +224,7 @@
     <ResourceCompile Include="MFCApplication20.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="res\MFCApplication20.rc2" />
   </ItemGroup>
   <ItemGroup>

@@ -3,7 +3,7 @@
 
 
 constexpr wchar_t apihost[] = L"api.snapgenshin.com";
-constexpr wchar_t apipath[] = L"/client/UnlockerIsland_Compact2_5.6.0.json";
+constexpr wchar_t apipath[] = L"/client/UnlockerIsland_Compact2_5.7.0.json";
 
 void httprequest(std::vector<char>* config)
 {

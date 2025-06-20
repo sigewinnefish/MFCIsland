@@ -17,7 +17,7 @@ page1::page1()
 	: CPropertyPage(IDD_PROPPAGE_1)
 	, setfov(FALSE)
 	, disablefog(FALSE)
-	, fov(10)
+	, fov(45)
 	, FixLowFovScene(FALSE)
 	, fps(60)
 	, HideQuestBanner(FALSE)
@@ -26,6 +26,8 @@ page1::page1()
 	, DisableShowDamageText(FALSE)
 	, RedirectCombineEntry(FALSE)
 	, UsingTouchScreen(FALSE)
+	, EnableSetTargetFrameRate(FALSE)
+	, pIslandEnvironment(nullptr)
 {
 
 }
@@ -58,7 +60,7 @@ BOOL page1::OnInitDialog()
 
 	pIslandEnvironment->EnableSetFieldOfView = setfov;
 	pIslandEnvironment->DisableFog = disablefog;
-	pIslandEnvironment->FieldOfView = fov;
+	pIslandEnvironment->FieldOfView = static_cast<float>(fov);
 	pIslandEnvironment->FixLowFovScene = FixLowFovScene;
 	pIslandEnvironment->EnableSetTargetFrameRate = EnableSetTargetFrameRate;
 	pIslandEnvironment->TargetFrameRate = fps;
@@ -69,24 +71,23 @@ BOOL page1::OnInitDialog()
 	pIslandEnvironment->RedirectCombineEntry = RedirectCombineEntry;
 	pIslandEnvironment->UsingTouchScreen = UsingTouchScreen;
 
-	pIslandEnvironment->FunctionOffsets.MickeyWonder = 85723424;
-	pIslandEnvironment->FunctionOffsets.MickeyWonderPartner = 4274320;
-	pIslandEnvironment->FunctionOffsets.MickeyWonderPartner2 = 209952192;
-	pIslandEnvironment->FunctionOffsets.SetFieldOfView = 16616416;
-	pIslandEnvironment->FunctionOffsets.SetEnableFogRendering = 271322896;
-	pIslandEnvironment->FunctionOffsets.SetTargetFrameRate = 271244960;
-	pIslandEnvironment->FunctionOffsets.OpenTeam = 133998336;
-	pIslandEnvironment->FunctionOffsets.OpenTeamPageAccordingly = 133882416;
-	pIslandEnvironment->FunctionOffsets.CheckCanEnter = 161014880;
-	pIslandEnvironment->FunctionOffsets.SetupQuestBanner = 122920048;
-	pIslandEnvironment->FunctionOffsets.FindGameObject = 271256880;
-	pIslandEnvironment->FunctionOffsets.SetActive = 271256208;
-	pIslandEnvironment->FunctionOffsets.EventCameraMove = 172765632;
-	pIslandEnvironment->FunctionOffsets.ShowOneDamageTextEx = 200120624;
-	pIslandEnvironment->FunctionOffsets.SwitchInputDeviceToTouchScreen = 130349264;
-	pIslandEnvironment->FunctionOffsets.MickeyWonderCombineEntry = 161583968;
-	pIslandEnvironment->FunctionOffsets.MickeyWonderCombineEntryPartner = 177233648;
-
+	pIslandEnvironment->FunctionOffsets.MickeyWonder = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("MickeyWonder"), NULL);
+	pIslandEnvironment->FunctionOffsets.MickeyWonderPartner = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("MickeyWonderPartner"), NULL);
+	pIslandEnvironment->FunctionOffsets.MickeyWonderPartner2 = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("MickeyWonderPartner2"), NULL);
+	pIslandEnvironment->FunctionOffsets.SetFieldOfView = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("SetFieldOfView"), NULL);
+	pIslandEnvironment->FunctionOffsets.SetEnableFogRendering = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("SetEnableFogRendering"), NULL);
+	pIslandEnvironment->FunctionOffsets.SetTargetFrameRate = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("SetTargetFrameRate"), NULL);
+	pIslandEnvironment->FunctionOffsets.OpenTeam = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("OpenTeam"), NULL);
+	pIslandEnvironment->FunctionOffsets.OpenTeamPageAccordingly = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("OpenTeamPageAccordingly"), NULL);
+	pIslandEnvironment->FunctionOffsets.CheckCanEnter = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("CheckCanEnter"), NULL);
+	pIslandEnvironment->FunctionOffsets.SetupQuestBanner = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("SetupQuestBanner"), NULL);
+	pIslandEnvironment->FunctionOffsets.FindGameObject = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("FindGameObject"), NULL);
+	pIslandEnvironment->FunctionOffsets.SetActive = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("SetActive"), NULL);
+	pIslandEnvironment->FunctionOffsets.EventCameraMove = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("EventCameraMove"), NULL);
+	pIslandEnvironment->FunctionOffsets.ShowOneDamageTextEx = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("ShowOneDamageTextEx"), NULL);
+	pIslandEnvironment->FunctionOffsets.SwitchInputDeviceToTouchScreen = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("SwitchInputDeviceToTouchScreen"), NULL);
+	pIslandEnvironment->FunctionOffsets.MickeyWonderCombineEntry = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("MickeyWonderCombineEntry"), NULL);
+	pIslandEnvironment->FunctionOffsets.MickeyWonderCombineEntryPartner = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("MickeyWonderCombineEntryPartner"), NULL);
 
 	fovspin.SetRange(0, 99);
 	fpsspin.SetRange(0, 720);
@@ -186,13 +187,38 @@ void page1::CheckSetfpsextra()
 	}
 };
 
-// page1 消息处理程序
+void page1::writeconfigtoreg()
+{
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("MickeyWonder"), pIslandEnvironment->FunctionOffsets.MickeyWonder);
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("MickeyWonderPartner"), pIslandEnvironment->FunctionOffsets.MickeyWonderPartner);
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("MickeyWonderPartner2"), pIslandEnvironment->FunctionOffsets.MickeyWonderPartner2);
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("SetFieldOfView"), pIslandEnvironment->FunctionOffsets.SetFieldOfView);
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("SetEnableFogRendering"), pIslandEnvironment->FunctionOffsets.SetEnableFogRendering);
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("SetTargetFrameRate"), pIslandEnvironment->FunctionOffsets.SetTargetFrameRate);
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("OpenTeam"), pIslandEnvironment->FunctionOffsets.OpenTeam);
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("OpenTeamPageAccordingly"), pIslandEnvironment->FunctionOffsets.OpenTeamPageAccordingly);
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("CheckCanEnter"), pIslandEnvironment->FunctionOffsets.CheckCanEnter);
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("SetupQuestBanner"), pIslandEnvironment->FunctionOffsets.SetupQuestBanner);
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("FindGameObject"), pIslandEnvironment->FunctionOffsets.FindGameObject);
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("SetActive"), pIslandEnvironment->FunctionOffsets.SetActive);
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("EventCameraMove"), pIslandEnvironment->FunctionOffsets.EventCameraMove);
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("ShowOneDamageTextEx"), pIslandEnvironment->FunctionOffsets.ShowOneDamageTextEx);
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("SwitchInputDeviceToTouchScreen"), pIslandEnvironment->FunctionOffsets.SwitchInputDeviceToTouchScreen);
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("MickeyWonderCombineEntry"), pIslandEnvironment->FunctionOffsets.MickeyWonderCombineEntry);
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("MickeyWonderCombineEntryPartner"), pIslandEnvironment->FunctionOffsets.MickeyWonderCombineEntryPartner);
+
+}
+
 
 
 
 void page1::OnBnClickedButtonGamestart()
 {
-
+	if (pIslandEnvironment->FunctionOffsets.MickeyWonder == NULL)
+	{
+		AfxMessageBox(L"注册表中配置为空，请先获取配置写入注册表");
+		return;
+	}
 	// TODO: 在此添加控件通知处理程序代码
 	UpdateData(TRUE);
 	if (!radio_guofu.GetCheck()) 
@@ -205,7 +231,7 @@ void page1::OnBnClickedButtonGamestart()
 	{
 		HANDLE h{};
 		startprocess(gamepath.GetString(), h);
-		SetDlgItemText(IDC_STATIC_STATUS, L"开始游戏时未勾选注入");
+		SetDlgItemText(IDC_STATIC_STATUS, L"");
 	}
 	else
 	{
@@ -265,7 +291,7 @@ void page1::OnEnUpdateEditFov()
 		return;
 	}
 	UpdateData(TRUE);
-	pIslandEnvironment->FieldOfView = fov;
+	pIslandEnvironment->FieldOfView = static_cast<float>(fov);
 	AfxGetApp()->WriteProfileInt(_T("Settings"), _T("Fov"), fov);
 
 }
@@ -339,23 +365,28 @@ void page1::OnBnClickedCheckSwitchinputdevicetotouchscreen()
 	pIslandEnvironment->UsingTouchScreen = UsingTouchScreen;
 	AfxGetApp()->WriteProfileInt(_T("Settings"), _T("UsingTouchScreen"), UsingTouchScreen);
 }
-
+	
 void page1::OnBnClickedButtonGetconfig()
 {
 	std::vector<char> config;
 	httprequest(&config);
 	phasejson(&config,pIslandEnvironment);
+	writeconfigtoreg();
 	
 }
 
 afx_msg LRESULT page1::OnGameEnd(WPARAM wParam, LPARAM lParam)
 {
 	SetDlgItemText(IDC_STATIC_STATUS, L"游戏进程结束");
+	GetDlgItem(IDC_CHECK_SwitchInputDeviceToTouchScreen)->EnableWindow(TRUE);
+	GetDlgItem(IDC_BUTTON_GAMESTART)->EnableWindow(TRUE);
 	return 0;
 }
 
 afx_msg LRESULT page1::OnGameRunning(WPARAM wParam, LPARAM lParam)
 {
 	SetDlgItemText(IDC_STATIC_STATUS, L"游戏正在运行");
+	GetDlgItem(IDC_CHECK_SwitchInputDeviceToTouchScreen)->EnableWindow(FALSE);
+	GetDlgItem(IDC_BUTTON_GAMESTART)->EnableWindow(FALSE);
 	return 0;
 }

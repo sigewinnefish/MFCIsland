@@ -34,6 +34,7 @@ public:
 
 	void CheckSetfieldofviewextra();
 	void CheckSetfpsextra();
+	void writeconfigtoreg();
 
 	afx_msg void OnBnClickedButtonGamestart();
 	afx_msg void OnBnClickedButtonSetgamedir();

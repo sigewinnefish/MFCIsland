@@ -23,4 +23,5 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg void OnBnClickedButtonLog();
+	afx_msg void OnBnClickedButtonWritefile();
 };

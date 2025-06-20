@@ -5,8 +5,6 @@
 #include "MFCApplication20.h"
 #include "sheet.h"
 
-
-
 // sheet
 
 IMPLEMENT_DYNAMIC(sheet, CPropertySheet)
@@ -29,6 +27,9 @@ BOOL sheet::OnInitDialog()
 {
 	CPropertySheet::OnInitDialog();
 
+	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	SetIcon(m_hIcon, TRUE);			// 设置大图标
+	SetIcon(m_hIcon, FALSE);
 	
 	CMenu* pSysMenu = GetSystemMenu(FALSE);
 	if (pSysMenu != nullptr)
@@ -36,11 +37,12 @@ BOOL sheet::OnInitDialog()
 
 		pSysMenu->AppendMenu(MF_SEPARATOR);
 		pSysMenu->AppendMenu(MF_STRING, SYSCMD_TOP, L"置顶");
+		pSysMenu->AppendMenu(MF_SEPARATOR);
+		pSysMenu->AppendMenu(MF_STRING, IDM_ABOUTBOX, L"关于");
 
 	}
 	return TRUE;
 }
-
 
 
 sheet::~sheet()
@@ -57,9 +59,11 @@ END_MESSAGE_MAP()
 void sheet::OnSysCommand(UINT nID, LPARAM lParam)
 {
 	// TODO: 在此添加专用代码和/或调用基类
-	if (nID == SYSCMD_TOP)
+
+	switch (nID)
 	{
-		
+	case SYSCMD_TOP:
+	{
 		CMenu* pSysMenu = GetSystemMenu(FALSE);
 		if (pSysMenu != nullptr)
 		{
@@ -77,13 +81,16 @@ void sheet::OnSysCommand(UINT nID, LPARAM lParam)
 			}
 
 		}
-
+		break;
 	}
-	else
+	case IDM_ABOUTBOX:
 	{
-		CPropertySheet::OnSysCommand(nID, lParam);
+		CDialog dlg(IDD_ABOUTBOX);
+		dlg.DoModal();
 	}
+	default:
+		CPropertySheet::OnSysCommand(nID, lParam);
 
-
+	}
 
 }

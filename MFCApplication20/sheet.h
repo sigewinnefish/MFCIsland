@@ -17,6 +17,7 @@ public:
 	sheet(UINT nIDCaption, CWnd* pParentWnd = nullptr, UINT iSelectPage = 0);
 	sheet(LPCTSTR pszCaption, CWnd* pParentWnd = nullptr, UINT iSelectPage = 0);
 	virtual ~sheet();
+	HICON m_hIcon;
 
 protected:
 

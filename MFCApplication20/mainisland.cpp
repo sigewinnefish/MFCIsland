@@ -79,6 +79,8 @@ void sethook(HANDLE h)
 
     Sleep(5000); //预留时间SetWindowsHookExW  否则hook不到
 
+    UnhookWindowsHookEx(hhook);
+
 }
 
 LPVOID filemapping()
