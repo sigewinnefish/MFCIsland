@@ -4,7 +4,8 @@
 
 void processLogMessage(WCHAR* pchRequest, DWORD* cbBytesRead)
 {
-	PostMessage(((sheet*)(AfxGetApp()->GetMainWnd()))->p2.m_hWnd, WM_LOGSENT, (WPARAM)pchRequest, (LPARAM)cbBytesRead);
+	SendMessage(((sheet*)(AfxGetApp()->GetMainWnd()))->p2.m_hWnd, WM_LOGSENT, (WPARAM)pchRequest, (LPARAM)cbBytesRead);
+	//必须为sendmessage 否则大量输入会导致错误
 }
 
 int LogServer() {

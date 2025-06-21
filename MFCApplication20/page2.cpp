@@ -71,17 +71,16 @@ void page2::OnBnClickedButtonLog()
 }
 
 
-
 void page2::OnBnClickedButtonWritefile()
 {
-    CString txt;
-    logedit.GetWindowText(txt);
     CFileDialog fd(FALSE, L"txt", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, L"TXT (*.txt)|*.txt|");
     if (fd.DoModal() == IDOK) {
         CString fp = fd.GetPathName();
         LPCWSTR filename = fp.GetString();
         HANDLE hFile = CreateFile(filename, GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
         DWORD lpNumberOfBytesWritten;
+        CString txt;
+        logedit.GetWindowText(txt);
         WriteFile(hFile, txt.GetString(), txt.GetLength()*sizeof(WCHAR), &lpNumberOfBytesWritten, NULL);
         CloseHandle(hFile);
     }
