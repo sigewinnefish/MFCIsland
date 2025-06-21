@@ -52,7 +52,7 @@ void page2::OnBnClickedButtonLog()
     {
         logbutton.SetWindowTextW(L"停止日志");
         logedit.SetSel(-1, -1); // 选中编辑框中的所有文本
-        logedit.ReplaceSel(_T("日志启动...\r\n")); // 替换选中的文本
+        logedit.ReplaceSel(L"日志启动...\r\n"); // 替换选中的文本
 
         enablelog = true;
         logbutton.enablelog = true;
@@ -61,7 +61,7 @@ void page2::OnBnClickedButtonLog()
     {
         logbutton.SetWindowTextW(L"开启日志");
         logedit.SetSel(-1, -1); // 选中编辑框中的所有文本
-        logedit.ReplaceSel(_T("日志停止...\r\n")); // 替换选中的文本
+        logedit.ReplaceSel(L"日志停止...\r\n"); // 替换选中的文本
 
         enablelog = false;
         logbutton.enablelog = false;
@@ -76,10 +76,16 @@ void page2::OnBnClickedButtonWritefile()
 {
     CString txt;
     logedit.GetWindowText(txt);
-    CFileDialog fd(TRUE);
+    CFileDialog fd(FALSE, L"txt", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, L"TXT (*.txt)|*.txt|");
     if (fd.DoModal() == IDOK) {
         CString fp = fd.GetPathName();
+        LPCWSTR filename = fp.GetString();
+        HANDLE hFile = CreateFile(filename, GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+        DWORD lpNumberOfBytesWritten;
+        WriteFile(hFile, txt.GetString(), txt.GetLength()*sizeof(WCHAR), &lpNumberOfBytesWritten, NULL);
+        CloseHandle(hFile);
     }
+    
 }
 
 afx_msg LRESULT page2::OnLogsent(WPARAM wParam, LPARAM lParam)
