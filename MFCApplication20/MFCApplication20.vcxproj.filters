@@ -54,6 +54,12 @@
     <ClInclude Include="logserver.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="logbtn.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="logCedit.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFCApplication20.cpp">
@@ -81,6 +87,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="logserver.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="logbtn.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="logCedit.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

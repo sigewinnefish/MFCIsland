@@ -193,6 +193,8 @@
     <ClInclude Include="appmessage.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="httprequest.h" />
+    <ClInclude Include="logbtn.h" />
+    <ClInclude Include="logCedit.h" />
     <ClInclude Include="logserver.h" />
     <ClInclude Include="mainisland.h" />
     <ClInclude Include="MFCApplication20.h" />
@@ -206,6 +208,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="httprequest.cpp" />
+    <ClCompile Include="logbtn.cpp" />
+    <ClCompile Include="logCedit.cpp" />
     <ClCompile Include="logserver.cpp" />
     <ClCompile Include="mainisland.cpp" />
     <ClCompile Include="MFCApplication20.cpp" />

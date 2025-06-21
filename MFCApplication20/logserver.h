@@ -1,6 +1,7 @@
 #pragma once
 
 #include <windows.h> 
+#include "sheet.h"
 
 int LogServer();
 

@@ -100,9 +100,9 @@ DWORD WINAPI ThreadProc(LPVOID lpParameter)
 {
     HANDLE h{};
     startprocess(((CString*)lpParameter)->GetString(), h);
-    SendMessage(((sheet*)(AfxGetApp()->GetMainWnd()))->p1.m_hWnd, WM_GAME_RUNNING, 0, 0);
+    PostMessage(((sheet*)(AfxGetApp()->GetMainWnd()))->p1.m_hWnd, WM_GAME_RUNNING, 0, 0);
     sethook(h);
     WaitForSingleObject(h, INFINITE);
-    SendMessage(((sheet*)(AfxGetApp()->GetMainWnd()))->p1.m_hWnd, WM_GAME_END, 0 ,0);
+    PostMessage(((sheet*)(AfxGetApp()->GetMainWnd()))->p1.m_hWnd, WM_GAME_END, 0 ,0);
     return 0;
 }

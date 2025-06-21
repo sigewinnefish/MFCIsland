@@ -2,8 +2,6 @@
 //
 
 #include "pch.h"
-#include "MFCApplication20.h"
-#include "afxdialogex.h"
 #include "page1.h"
 #include <vector>
 

@@ -1,6 +1,9 @@
 ﻿#pragma once
 #include "afxdialogex.h"
-
+#include "logbtn.h"
+#include "appmessage.h"
+#include "MFCApplication20.h"
+#include "logCedit.h"
 
 // page2 对话框
 
@@ -24,4 +27,14 @@ protected:
 public:
 	afx_msg void OnBnClickedButtonLog();
 	afx_msg void OnBnClickedButtonWritefile();
+	
+	logbtn logbutton;
+	logCedit logedit;
+	BOOL enablelog = FALSE;
+protected:
+	afx_msg LRESULT OnLogsent(WPARAM wParam, LPARAM lParam);
+public:
+	virtual BOOL OnInitDialog();
+	afx_msg void OnBnClickedButtonClearlog();
+
 };

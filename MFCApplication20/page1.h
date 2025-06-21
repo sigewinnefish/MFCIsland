@@ -4,6 +4,7 @@
 #include "httprequest.h"
 #include "phasejson.h"
 #include "appmessage.h"
+#include "MFCApplication20.h"
 
 // page1 对话框
 
