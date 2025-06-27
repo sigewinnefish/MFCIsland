@@ -9,6 +9,7 @@ void phasejson(std::vector<char>* config, IslandEnvironment* pIslandEnvironment)
 	pIslandEnvironment->FunctionOffsets.MickeyWonderPartner2 = UnlockerIsland_json["Chinese"]["MickeyWonderMethodPartner2"];
 	pIslandEnvironment->FunctionOffsets.SetFieldOfView = UnlockerIsland_json["Chinese"]["SetFieldOfView"];
 	pIslandEnvironment->FunctionOffsets.SetEnableFogRendering = UnlockerIsland_json["Chinese"]["SetEnableFogRendering"];
+	pIslandEnvironment->FunctionOffsets.GetTargetFrameRate = UnlockerIsland_json["Chinese"]["GetTargetFrameRate"];
 	pIslandEnvironment->FunctionOffsets.SetTargetFrameRate = UnlockerIsland_json["Chinese"]["SetTargetFrameRate"];
 	pIslandEnvironment->FunctionOffsets.OpenTeam = UnlockerIsland_json["Chinese"]["OpenTeam"];
 	pIslandEnvironment->FunctionOffsets.OpenTeamPageAccordingly = UnlockerIsland_json["Chinese"]["OpenTeamPageAccordingly"];

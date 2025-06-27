@@ -20,6 +20,7 @@ sheet::sheet(LPCTSTR pszCaption, CWnd* pParentWnd, UINT iSelectPage)
 {
 	AddPage(&p1);
 	AddPage(&p2);
+	AddPage(&dp);
 
 }
 
@@ -47,6 +48,7 @@ BOOL sheet::OnInitDialog()
 
 sheet::~sheet()
 {
+
 }
 
 BEGIN_MESSAGE_MAP(sheet, CPropertySheet)
@@ -93,4 +95,9 @@ void sheet::OnSysCommand(UINT nID, LPARAM lParam)
 
 	}
 
+}
+
+void sheet::PostNcDestroy()
+{
+	delete this; // 关闭时，清理sheet,防止内存泄漏警告
 }

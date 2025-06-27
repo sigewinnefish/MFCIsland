@@ -27,7 +27,7 @@ page1::page1()
 	, EnableSetTargetFrameRate(FALSE)
 	, pIslandEnvironment(nullptr)
 {
-
+	pIslandEnvironment = (IslandEnvironment*)filemapping(ISLAND_ENVIRONMENT_NAME);
 }
 
 page1::~page1()
@@ -38,7 +38,7 @@ BOOL page1::OnInitDialog()
 {
 	CPropertyPage::OnInitDialog();
 
-	pIslandEnvironment = (IslandEnvironment*)filemapping();
+	
 	gamepath = AfxGetApp()->GetProfileString(_T("Settings"), _T("GamePath"));
 	noinject = AfxGetApp()->GetProfileInt(_T("Settings"), _T("NoInject"),NULL);
 
@@ -74,6 +74,7 @@ BOOL page1::OnInitDialog()
 	pIslandEnvironment->FunctionOffsets.MickeyWonderPartner2 = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("MickeyWonderPartner2"), NULL);
 	pIslandEnvironment->FunctionOffsets.SetFieldOfView = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("SetFieldOfView"), NULL);
 	pIslandEnvironment->FunctionOffsets.SetEnableFogRendering = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("SetEnableFogRendering"), NULL);
+	pIslandEnvironment->FunctionOffsets.GetTargetFrameRate = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("GetTargetFrameRate"), NULL);
 	pIslandEnvironment->FunctionOffsets.SetTargetFrameRate = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("SetTargetFrameRate"), NULL);
 	pIslandEnvironment->FunctionOffsets.OpenTeam = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("OpenTeam"), NULL);
 	pIslandEnvironment->FunctionOffsets.OpenTeamPageAccordingly = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("OpenTeamPageAccordingly"), NULL);
@@ -192,6 +193,7 @@ void page1::writeconfigtoreg()
 	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("MickeyWonderPartner2"), pIslandEnvironment->FunctionOffsets.MickeyWonderPartner2);
 	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("SetFieldOfView"), pIslandEnvironment->FunctionOffsets.SetFieldOfView);
 	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("SetEnableFogRendering"), pIslandEnvironment->FunctionOffsets.SetEnableFogRendering);
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("GetTargetFrameRate"), pIslandEnvironment->FunctionOffsets.GetTargetFrameRate);
 	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("SetTargetFrameRate"), pIslandEnvironment->FunctionOffsets.SetTargetFrameRate);
 	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("OpenTeam"), pIslandEnvironment->FunctionOffsets.OpenTeam);
 	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("OpenTeamPageAccordingly"), pIslandEnvironment->FunctionOffsets.OpenTeamPageAccordingly);

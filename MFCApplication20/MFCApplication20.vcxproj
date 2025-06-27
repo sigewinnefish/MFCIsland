@@ -77,6 +77,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <LibraryPath>$(ProjectDir)lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <ExternalIncludePath>$(ProjectDir)include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
@@ -86,6 +88,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <LibraryPath>$(ProjectDir)lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <ExternalIncludePath>$(ProjectDir)include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</ExternalIncludePath>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg">
     <VcpkgEnableManifest>true</VcpkgEnableManifest>
@@ -101,6 +105,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <AdditionalManifestDependencies>type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'</AdditionalManifestDependencies>
+      <AdditionalDependencies>detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -177,6 +182,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalManifestDependencies>type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'</AdditionalManifestDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <AdditionalDependencies>detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -191,8 +197,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="appmessage.h" />
+    <ClInclude Include="damage.h" />
+    <ClInclude Include="DamagePage.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="httprequest.h" />
+    <ClInclude Include="include\detours.h" />
+    <ClInclude Include="include\detver.h" />
+    <ClInclude Include="include\syelog.h" />
     <ClInclude Include="logbtn.h" />
     <ClInclude Include="logCedit.h" />
     <ClInclude Include="logserver.h" />
@@ -207,6 +218,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DamagePage.cpp" />
     <ClCompile Include="httprequest.cpp" />
     <ClCompile Include="logbtn.cpp" />
     <ClCompile Include="logCedit.cpp" />
@@ -229,10 +241,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="res\MFCApplication20.rc2" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\MFCApplication20.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\detours.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

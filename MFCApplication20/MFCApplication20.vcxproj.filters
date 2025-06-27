@@ -60,6 +60,21 @@
     <ClInclude Include="logCedit.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="DamagePage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="damage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\syelog.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\detours.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="include\detver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MFCApplication20.cpp">
@@ -95,6 +110,9 @@
     <ClCompile Include="logCedit.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="DamagePage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MFCApplication20.rc">
@@ -106,10 +124,14 @@
       <Filter>资源文件</Filter>
     </None>
     <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\MFCApplication20.ico">
       <Filter>资源文件</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="lib\detours.lib" />
   </ItemGroup>
 </Project>

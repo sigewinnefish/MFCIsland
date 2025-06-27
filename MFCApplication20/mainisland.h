@@ -26,6 +26,7 @@ struct FunctionOffsets
     UINT32 MickeyWonderPartner2;
     UINT32 SetFieldOfView;
     UINT32 SetEnableFogRendering;
+    UINT32 GetTargetFrameRate;
     UINT32 SetTargetFrameRate;
     UINT32 OpenTeam;
     UINT32 OpenTeamPageAccordingly;
@@ -78,5 +79,5 @@ namespace execinfo
 
 void startprocess(CString path, HANDLE& h);
 void sethook(HANDLE h);
-LPVOID filemapping();
+LPVOID filemapping(PCWSTR NAME);
 DWORD WINAPI ThreadProc(LPVOID lpParameter);
