@@ -102,6 +102,7 @@ void sethook(HANDLE h)
     if (!dh)
     {
         AfxMessageBox(L"Snap.Hutao.UnlockerIsland.dllº”‘ÿ ß∞‹", MB_OK | MB_ICONERROR);
+        detours_unsethook(reinterpret_cast<PVOID*>(&TrueGetModuleHandleW), fGetModuleHandleW);
         return;
     }
 
