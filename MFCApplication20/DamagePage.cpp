@@ -6,6 +6,7 @@
 
 extern volatile BOOL clear;
 extern CRITICAL_SECTION cs;
+extern HANDLE hEventtogglestat;
 // DamagePage 对话框
 
 IMPLEMENT_DYNAMIC(DamagePage, CPropertyPage)
@@ -24,12 +25,14 @@ void DamagePage::DoDataExchange(CDataExchange* pDX)
 	CPropertyPage::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_LIST_DAMAGE, m_damageListctl);
 	DDX_Control(pDX, IDC_COMBO_DELAY, m_delalyctl);
+	DDX_Control(pDX, IDC_BUTTON_STAT, damagestatbtn);
 }
 
 BEGIN_MESSAGE_MAP(DamagePage, CPropertyPage)
 	ON_BN_CLICKED(IDC_BUTTON_STAT, &DamagePage::OnBnClickedButtonStat)
 	ON_WM_TIMER()
 	ON_CBN_SELCHANGE(IDC_COMBO_DELAY, &DamagePage::OnCbnSelchangeComboDelay)
+	ON_BN_CLICKED(IDC_BUTTON_STATCLEAR, &DamagePage::OnBnClickedButtonStatclear)
 END_MESSAGE_MAP()
 
 // DamagePage 消息处理程序
@@ -133,18 +136,9 @@ void DamagePage::autoColumnWidth(CListCtrl* listCtrl, int columnIndex)
 }
 
 
-void DamagePage::OnBnClickedButtonStat()
-{
-
-	ZeroMemory(&listDamageData, sizeof(listDamageData));
-	clear = TRUE; // 清除数据
-}
-
-void DamagePage::OnTimer(UINT_PTR nIDEvent)
+void DamagePage::OnTimer(UINT_PTR nIDEvent) //非抢占计时器
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
-
-	
 
 	for (int i = 0; i < 8; i++)
 	{	
@@ -213,3 +207,39 @@ void DamagePage::OnCbnSelchangeComboDelay()
 		break;
 	}
 }
+
+void DamagePage::OnBnClickedButtonStat()
+{
+	if (!hEventtogglestat) return;
+
+	if (!enabledamagestat)
+	{
+		SetEvent(hEventtogglestat);
+		enabledamagestat = !enabledamagestat;
+		damagestatbtn.SetWindowTextW(L"关闭统计");
+	}
+	else
+	{
+		ResetEvent(hEventtogglestat);
+		enabledamagestat = !enabledamagestat;
+		damagestatbtn.SetWindowTextW(L"开启统计");
+	}
+	
+
+}
+
+void DamagePage::OnBnClickedButtonStatclear()
+{
+	
+	ZeroMemory(&listDamageData, sizeof(listDamageData));
+	for (int i = 0; i < 8; i++)
+	{
+		m_damageListctl.SetItemText(i, 2, L"0.0000");
+		m_damageListctl.SetItemText(i, 3, L"0.00");
+		m_damageListctl.SetItemText(i, 4, L"0");
+
+	}
+
+	clear = TRUE; // 清除数据
+}
+

@@ -35,10 +35,14 @@ public:
 	INT64 damagetotaltemp[8] = { 0 };
 	float damagedeviationtemp[8] = { 0 };
 	float damagemaxtemp[8] = { 0 };
-	wchar_t szBuffer[1024];
+	wchar_t szBuffer[1024]; 
+	bool enabledamagestat = false;
 
 private:
 	void initdamagelistctr();
 	void initdelaycbox();
+public:
+	afx_msg void OnBnClickedButtonStatclear();
+	CButton damagestatbtn;
 };
 

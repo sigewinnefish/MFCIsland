@@ -8,6 +8,7 @@
 volatile BOOL clear = 0;
 DamageInnerData * pdata = nullptr;
 CRITICAL_SECTION cs;
+HANDLE hEventtogglestat;
 
 DWORD WINAPI DamageThreadProc(LPVOID lpParameter)
 {
@@ -19,7 +20,13 @@ DWORD WINAPI DamageThreadProc(LPVOID lpParameter)
     listDamageData* plistDamageData = (listDamageData*)lpParameter;
 
 	HANDLE hEvent = CreateEvent(NULL, FALSE, FALSE, L"Local\\MFCIslandEvent");
+    hEventtogglestat = CreateEvent(NULL, TRUE, FALSE, NULL);
 	
+    if (!hEventtogglestat)
+    {
+        return GetLastError();
+    }
+
 	if(!hEvent)
 	{
 
@@ -28,15 +35,9 @@ DWORD WINAPI DamageThreadProc(LPVOID lpParameter)
 
     while (true)
     {
-        if (clear)
-        {
-			data = DamageInnerData{};
-            clear = 0;
-        }
-
         WaitForSingleObject(hEvent, INFINITE);
-
-
+        WaitForSingleObject(hEventtogglestat, INFINITE);
+        
         EnterCriticalSection(&cs);
         switch (pElementalDamages->type)
         {
@@ -95,6 +96,11 @@ DWORD WINAPI DamagecalcThreadProc(LPVOID lpParameter)
             }
 
             EnterCriticalSection(&cs);
+            if (clear)
+            {
+                *pdata = DamageInnerData{};
+                clear = 0;
+            }
             std::vector<float> temp = pDamages[i];
             LeaveCriticalSection(&cs);
 
@@ -117,7 +123,7 @@ DWORD WINAPI DamagecalcThreadProc(LPVOID lpParameter)
             pDamageData[i].deviation = (float)sqrt(sum / n);
 
         }
-        Sleep(200);
+        Sleep(250);
 
 
     }

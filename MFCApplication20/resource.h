@@ -16,6 +16,7 @@
 #define IDC_EDIT1                       1001
 #define IDC_LOG                         1001
 #define IDC_BUTTON_STAT2                1001
+#define IDC_BUTTON_STATCLEAR            1001
 #define IDC_CHECK1                      1002
 #define IDC_BUTTON2                     1002
 #define IDC_CHECK_SetFieldOfView        1002
@@ -67,9 +68,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        132
+#define _APS_NEXT_RESOURCE_VALUE        134
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1036
+#define _APS_NEXT_CONTROL_VALUE         1046
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
