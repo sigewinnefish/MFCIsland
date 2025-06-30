@@ -77,10 +77,14 @@ static LONG WINAPI fGetCurrentPackageFamilyName(_Inout_ UINT32* packageFamilyNam
 
 static HMODULE WINAPI fGetModuleHandleW(_In_opt_ LPCWSTR lpModuleName)
 {
-    if (wcscmp(lpModuleName, L"Snap.Hutao.dll") == 0)
+    if (lpModuleName != nullptr)
     {
-        return reinterpret_cast<HMODULE>(1);
+        if (wcscmp(lpModuleName, L"Snap.Hutao.dll") == 0)
+        {
+            return reinterpret_cast<HMODULE>(1);
+        }
     }
+
 	return TrueGetModuleHandleW(lpModuleName);
 }
 

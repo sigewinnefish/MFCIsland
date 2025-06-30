@@ -12,10 +12,10 @@
 #define IDR_MAINFRAME                   128
 #define IDC_BUTTON1                     1000
 #define IDC_BUTTON_LOG                  1000
-#define IDC_BUTTON_START_               1000
 #define IDC_BUTTON_STAT                 1000
 #define IDC_EDIT1                       1001
 #define IDC_LOG                         1001
+#define IDC_BUTTON_STAT2                1001
 #define IDC_CHECK1                      1002
 #define IDC_BUTTON2                     1002
 #define IDC_CHECK_SetFieldOfView        1002
@@ -59,14 +59,17 @@
 #define IDC_STATIC_STATUS               1028
 #define IDC_BUTTON_CLEARLOG             1029
 #define IDC_LIST_DAMAGE                 1030
+#define IDC_COMBO_DELAY                 1032
+#define IDC_HOTKEY1                     1034
+#define IDC_HOTKEY2                     1035
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        131
+#define _APS_NEXT_RESOURCE_VALUE        132
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1032
+#define _APS_NEXT_CONTROL_VALUE         1036
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

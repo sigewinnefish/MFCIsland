@@ -82,6 +82,6 @@ private:
 public:
 	afx_msg void OnBnClickedButtonGetconfig();
 protected:
-	afx_msg LRESULT page1::OnGameEnd(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnGameEnd(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnGameRunning(WPARAM wParam, LPARAM lParam);
 };

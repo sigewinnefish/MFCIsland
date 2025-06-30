@@ -24,7 +24,7 @@ public:
 protected:
 
 	DECLARE_MESSAGE_MAP()
-	virtual void sheet::OnSysCommand(UINT nID, LPARAM lParam);
+	virtual void OnSysCommand(UINT nID, LPARAM lParam);
 	virtual void PostNcDestroy();
 };
 

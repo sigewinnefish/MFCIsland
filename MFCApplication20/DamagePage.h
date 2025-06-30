@@ -28,7 +28,17 @@ public:
 	afx_msg void OnBnClickedButtonStat();
 	afx_msg void OnTimer(UINT_PTR nIDEvent);
 
-	ElementalDamages* pElementalDamages;
+	listDamageData listDamageData{};
 	void autoColumnWidth(CListCtrl* listCtrl, int columnIndex);
+	afx_msg void OnCbnSelchangeComboDelay();
+	CComboBox m_delalyctl;
+	INT64 damagetotaltemp[8] = { 0 };
+	float damagedeviationtemp[8] = { 0 };
+	float damagemaxtemp[8] = { 0 };
+	wchar_t szBuffer[1024];
+
+private:
+	void initdamagelistctr();
+	void initdelaycbox();
 };
 

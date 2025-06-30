@@ -113,6 +113,9 @@
     <ClCompile Include="DamagePage.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="damage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MFCApplication20.rc">
