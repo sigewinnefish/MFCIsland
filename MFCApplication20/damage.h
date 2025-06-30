@@ -58,6 +58,8 @@ struct DamageInnerData
 
 DWORD WINAPI DamageThreadProc(LPVOID lpParameter);
 DWORD WINAPI DamagecalcThreadProc(LPVOID lpParameter);
-
+inline volatile BOOL clear = 0;
+inline CRITICAL_SECTION cs;
+inline HANDLE hEventtogglestat;
 
 

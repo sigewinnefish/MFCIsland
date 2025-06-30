@@ -4,9 +4,7 @@
 #include "pch.h"
 #include "DamagePage.h"
 
-extern volatile BOOL clear;
-extern CRITICAL_SECTION cs;
-extern HANDLE hEventtogglestat;
+
 // DamagePage 对话框
 
 IMPLEMENT_DYNAMIC(DamagePage, CPropertyPage)

@@ -5,10 +5,8 @@
 
 #define pDamages ((std::vector<float>*) pdata)
 #define pDamageData ((DamageData*)plistDamageData)
-volatile BOOL clear = 0;
 DamageInnerData * pdata = nullptr;
-CRITICAL_SECTION cs;
-HANDLE hEventtogglestat;
+
 
 DWORD WINAPI DamageThreadProc(LPVOID lpParameter)
 {
@@ -29,7 +27,6 @@ DWORD WINAPI DamageThreadProc(LPVOID lpParameter)
 
 	if(!hEvent)
 	{
-
 		return GetLastError();
 	}
 
