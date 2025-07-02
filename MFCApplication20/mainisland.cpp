@@ -2,6 +2,7 @@
 #include "mainisland.h"
 #include "appmessage.h"
 #include "sheet.h"
+#include "resource.h"
 #include <detours.h>
 
 
@@ -101,7 +102,7 @@ void sethook(HANDLE h)
     HANDLE dh = loaddll(L"Snap.Hutao.UnlockerIsland.dll");
     if (!dh)
     {
-        AfxMessageBox(L"Snap.Hutao.UnlockerIsland.dllº”‘ÿ ß∞‹", MB_OK | MB_ICONERROR);
+        AfxMessageBox(IDS_ERROR_DLLLOAD, MB_OK | MB_ICONERROR);
         detours_unsethook(reinterpret_cast<PVOID*>(&TrueGetModuleHandleW), fGetModuleHandleW);
         return;
     }

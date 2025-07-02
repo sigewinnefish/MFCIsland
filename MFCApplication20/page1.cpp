@@ -216,14 +216,14 @@ void page1::OnBnClickedButtonGamestart()
 {
 	if (pIslandEnvironment->FunctionOffsets.MickeyWonder == NULL)
 	{
-		AfxMessageBox(L"注册表中配置为空，请先获取配置写入注册表");
+		AfxMessageBox(IDS_ERROR_CONFIG);
 		return;
 	}
 	// TODO: 在此添加控件通知处理程序代码
 	UpdateData(TRUE);
 	if (!radio_guofu.GetCheck()) 
 	{
-		AfxMessageBox(L"国际服目前暂不支持");
+		AfxMessageBox(IDS_ERROR_NOSUPPORT);
 		return;
 	} // 国际服目前暂不支持
 

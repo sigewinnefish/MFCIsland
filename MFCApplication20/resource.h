@@ -6,6 +6,10 @@
 #define IDD_ABOUTBOX                    100
 #define IDS_ABOUTBOX                    101
 #define IDD_MFCAPPLICATION20_DIALOG     102
+#define IDS_ERROR_NOSUPPORT             102
+#define IDS_ERROR_CONFIG                103
+#define IDS_STRING104                   104
+#define IDS_ERROR_DLLLOAD               104
 #define IDD_PROPPAGE_1                  107
 #define IDD_PROPPAGE_2                  108
 #define IDD_DamagePage                  109
