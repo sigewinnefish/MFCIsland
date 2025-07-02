@@ -20,63 +20,62 @@ DWORD WINAPI DamageThreadProc(LPVOID lpParameter)
 
     listDamageData* plistDamageData = (listDamageData*)lpParameter;
 
-	HANDLE hEvent = CreateEvent(NULL, FALSE, FALSE, L"Local\\MFCIslandEvent");
+	hEvent = CreateEvent(NULL, FALSE, FALSE, L"Local\\MFCIslandEvent");
     hEventtogglestat = CreateEvent(NULL, TRUE, FALSE, NULL);
     hEventcal = CreateEvent(NULL, FALSE, FALSE, NULL);
+
+    auto getdamage = [&pElementalDamages]()
+        {
+            EnterCriticalSection(&cs);
+            switch (pElementalDamages->type)
+            {
+            case 0:
+                pDamages[0].push_back(pElementalDamages->Physical.current);
+                break;
+            case 1:
+                pDamages[1].push_back(pElementalDamages->Pyro.current);
+                break;
+            case 2:
+                pDamages[2].push_back(pElementalDamages->Hydro.current);
+                break;
+            case 3:
+                pDamages[3].push_back(pElementalDamages->Dendro.current);
+                break;
+            case 4:
+                pDamages[4].push_back(pElementalDamages->Electro.current);
+                break;
+            case 5:
+                pDamages[5].push_back(pElementalDamages->Cryo.current);
+                break;
+            case 7:
+                pDamages[6].push_back(pElementalDamages->Anemo.current);
+                break;
+            case 8:
+                pDamages[7].push_back(pElementalDamages->Geo.current);
+                break;
+            default:
+                break;
+            }
+            LeaveCriticalSection(&cs);
+        };
 	
-    if (!hEventtogglestat)
+    if (!hEventtogglestat || !hEvent || !hEventcal)
     {
         return GetLastError();
     }
 
-	if(!hEvent)
-	{
-		return GetLastError();
-	}
-
-    if (!hEventcal)
-    {
-        return GetLastError();
-    }
 
     while (true)
     {
- 
+
         if (WaitForSingleObject(hEventtogglestat, INFINITE)) continue;
         if (WaitForSingleObject(hEvent, INFINITE) != 0) continue;
-        
-        
-        EnterCriticalSection(&cs);
-        switch (pElementalDamages->type)
-        {
-        case 0:
-            pDamages[0].push_back(pElementalDamages->Physical.current);
-            break;
-        case 1:
-            pDamages[1].push_back(pElementalDamages->Pyro.current);
-            break;
-        case 2:
-            pDamages[2].push_back(pElementalDamages->Hydro.current);
-            break;
-        case 3:
-            pDamages[3].push_back(pElementalDamages->Dendro.current);
-            break;
-        case 4:
-            pDamages[4].push_back(pElementalDamages->Electro.current);
-            break;
-        case 5:
-            pDamages[5].push_back(pElementalDamages->Cryo.current);
-            break;
-        case 7:
-            pDamages[6].push_back(pElementalDamages->Anemo.current);
-            break;
-        case 8:
-            pDamages[7].push_back(pElementalDamages->Geo.current);
-            break;
-        default:
-            break;
+        if (flag) {
+            flag = 0;
+            continue;
         }
-        LeaveCriticalSection(&cs);
+       
+        getdamage();
 
         SetEvent(hEventcal);
     }
@@ -107,19 +106,13 @@ DWORD WINAPI DamagecalcThreadProc(LPVOID lpParameter)
 
         for (int i = 0; i < 8; i++)
         {
-            if (pDamages[i].empty())
-            {
-                continue;
-            }
+            if (pDamages[i].empty()) continue;
 
             EnterCriticalSection(&cs);
             std::vector<float> temp = pDamages[i];
             LeaveCriticalSection(&cs);
 
-            if (temp.empty())
-            {
-                continue;
-            }
+            if (temp.empty()) continue;
 
             pDamageData[i].max = *std::max_element(temp.begin(), temp.end());
             pDamageData[i].total = std::reduce(std::execution::unseq, temp.begin(), temp.end(), 0LL, [](__int64 acc, float damageval) {return acc + static_cast<__int64>(damageval);});
@@ -138,11 +131,9 @@ DWORD WINAPI DamagecalcThreadProc(LPVOID lpParameter)
             pDamageData[i].deviation = (float)sqrt(sum / n);
 
         }
-        Sleep(50);
+        Sleep(200);
 
-        loop:if (WaitForSingleObject(__notnull hEventcal, INFINITE) != 0) goto loop;
-
-        
+        loop: if (WaitForSingleObject(__notnull hEventcal, INFINITE) != 0) goto loop;
 
     }
 }

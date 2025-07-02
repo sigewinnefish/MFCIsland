@@ -223,12 +223,14 @@ void DamagePage::OnBnClickedButtonStat()
 
 	if (!enabledamagestat)
 	{
+		ResetEvent(hEvent);
 		SetEvent(hEventtogglestat);
 		enabledamagestat = !enabledamagestat;
 		damagestatbtn.SetWindowTextW(L"关闭统计");
 	}
 	else
 	{
+		flag = 1;
 		ResetEvent(hEventtogglestat);
 		enabledamagestat = !enabledamagestat;
 		damagestatbtn.SetWindowTextW(L"开启统计");
@@ -252,6 +254,6 @@ void DamagePage::OnBnClickedButtonStatclear()
 
 	
 	clear = TRUE; // 清除数据
-	SetEvent(hEventcal);
+	SetEvent(hEventcal); //激活事件确保清零
 }
 
