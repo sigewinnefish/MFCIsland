@@ -69,9 +69,10 @@ void DamagePage::initdamagelistctr()
 	m_damageListctl.SetExtendedStyle(LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES); // 设置扩展样式
 	m_damageListctl.InsertColumn(0, L"序号", LVCFMT_LEFT, 0);
 	m_damageListctl.InsertColumn(1, L"元素种类", LVCFMT_LEFT, 0);
-	m_damageListctl.InsertColumn(2, L"最大伤害", LVCFMT_LEFT, 0);
-	m_damageListctl.InsertColumn(3, L"伤害标准差", LVCFMT_LEFT, 0);
-	m_damageListctl.InsertColumn(4, L"累计伤害", LVCFMT_LEFT, 0);
+	m_damageListctl.InsertColumn(2, L"伤害次数", LVCFMT_LEFT, 0);
+	m_damageListctl.InsertColumn(3, L"最大伤害", LVCFMT_LEFT, 0);
+	m_damageListctl.InsertColumn(4, L"伤害标准差", LVCFMT_LEFT, 0);
+	m_damageListctl.InsertColumn(5, L"累计伤害", LVCFMT_LEFT, 0);
 
 	int nItem{ 0 };
 	const WCHAR* elementNames[] = {
@@ -91,9 +92,10 @@ void DamagePage::initdamagelistctr()
 		swprintf(numbuf, sizeof(numbuf) / sizeof(WCHAR), L"%d", nItem);
 		m_damageListctl.InsertItem(nItem, numbuf);
 		m_damageListctl.SetItemText(nItem, 1, elementname);
-		m_damageListctl.SetItemText(nItem, 2, L"0.0000");
-		m_damageListctl.SetItemText(nItem, 3, L"0.00");
-		m_damageListctl.SetItemText(nItem, 4, L"0");
+		m_damageListctl.SetItemText(nItem, 2, L"0");
+		m_damageListctl.SetItemText(nItem, 3, L"0.0000");
+		m_damageListctl.SetItemText(nItem, 4, L"0.00");
+		m_damageListctl.SetItemText(nItem, 5, L"0");
 		nItem++;
 	}
 
@@ -103,9 +105,9 @@ void DamagePage::initdamagelistctr()
 	{
 		HDITEM hdi{};
 		hdi.mask = HDI_FORMAT;
-		pHeader->GetItem(4, &hdi);
+		pHeader->GetItem(5, &hdi);
 		hdi.fmt |= HDF_STRING | HDF_SORTDOWN;
-		pHeader->SetItem(4, &hdi);
+		pHeader->SetItem(5, &hdi);
 	}
 
 	autoColumnWidth(&m_damageListctl, 0);
@@ -113,6 +115,7 @@ void DamagePage::initdamagelistctr()
 	autoColumnWidth(&m_damageListctl, 2);
 	autoColumnWidth(&m_damageListctl, 3);
 	autoColumnWidth(&m_damageListctl, 4);
+	autoColumnWidth(&m_damageListctl, 5);
 }
 void DamagePage::initdelaycbox()
 {
@@ -130,7 +133,7 @@ void DamagePage::autoColumnWidth(CListCtrl* listCtrl, int columnIndex)
 {
 
 	listCtrl->SetColumnWidth(columnIndex, LVSCW_AUTOSIZE_USEHEADER);
-	listCtrl->SetColumnWidth(columnIndex, (int)(listCtrl->GetColumnWidth(columnIndex)*2));
+	listCtrl->SetColumnWidth(columnIndex, (int)(listCtrl->GetColumnWidth(columnIndex)*1.75));
 }
 
 
@@ -141,11 +144,19 @@ void DamagePage::OnTimer(UINT_PTR nIDEvent) //非抢占计时器
 	for (int i = 0; i < 8; i++)
 	{	
 
+		if (damagecountemp[i] != ((DamageData*)&listDamageData)[i].count)
+		{
+			ZeroMemory(szBuffer, sizeof(szBuffer));
+			swprintf_s(szBuffer, L"%d", ((DamageData*)&listDamageData)[i].count);
+			m_damageListctl.SetItemText(i, 2, szBuffer);
+			damagecountemp[i] = ((DamageData*)&listDamageData)[i].count;
+		}
+
 		if (damagemaxtemp[i] != ((DamageData*)&listDamageData)[i].max)
 		{
 			ZeroMemory(szBuffer, sizeof(szBuffer));
 			swprintf_s(szBuffer, L"%.4f", ((DamageData*)&listDamageData)[i].max);
-			m_damageListctl.SetItemText(i, 2, szBuffer);
+			m_damageListctl.SetItemText(i, 3, szBuffer);
 			damagemaxtemp[i] = ((DamageData*)&listDamageData)[i].max;
 		}
 
@@ -153,7 +164,7 @@ void DamagePage::OnTimer(UINT_PTR nIDEvent) //非抢占计时器
 		{
 			ZeroMemory(szBuffer, sizeof(szBuffer));
 			swprintf_s(szBuffer, L"%.2f", ((DamageData*)&listDamageData)[i].deviation);
-			m_damageListctl.SetItemText(i, 3, szBuffer);
+			m_damageListctl.SetItemText(i, 4, szBuffer);
 			damagedeviationtemp[i] = ((DamageData*)&listDamageData)[i].deviation;
 		}
 
@@ -161,7 +172,7 @@ void DamagePage::OnTimer(UINT_PTR nIDEvent) //非抢占计时器
 		{
 			ZeroMemory(szBuffer, sizeof(szBuffer));
 			swprintf_s(szBuffer, L"%lld", ((DamageData*)&listDamageData)[i].total);
-			m_damageListctl.SetItemText(i, 4, szBuffer);
+			m_damageListctl.SetItemText(i, 5, szBuffer);
 			damagetotaltemp[i] = ((DamageData*)&listDamageData)[i].total;
 		}
 
@@ -232,12 +243,15 @@ void DamagePage::OnBnClickedButtonStatclear()
 	ZeroMemory(&listDamageData, sizeof(listDamageData));
 	for (int i = 0; i < 8; i++)
 	{
-		m_damageListctl.SetItemText(i, 2, L"0.0000");
-		m_damageListctl.SetItemText(i, 3, L"0.00");
-		m_damageListctl.SetItemText(i, 4, L"0");
+		m_damageListctl.SetItemText(i, 2, L"0");
+		m_damageListctl.SetItemText(i, 3, L"0.0000");
+		m_damageListctl.SetItemText(i, 4, L"0.00");
+		m_damageListctl.SetItemText(i, 5, L"0");
 
 	}
 
+	
 	clear = TRUE; // 清除数据
+	SetEvent(hEventcal);
 }
 

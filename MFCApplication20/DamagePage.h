@@ -35,6 +35,8 @@ public:
 	INT64 damagetotaltemp[8] = { 0 };
 	float damagedeviationtemp[8] = { 0 };
 	float damagemaxtemp[8] = { 0 };
+	int damagecountemp[8] = { 0 };
+	
 	wchar_t szBuffer[1024]; 
 	bool enabledamagestat = false;
 

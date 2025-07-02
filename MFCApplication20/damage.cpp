@@ -2,14 +2,17 @@
 #include "mainisland.h"
 #include "damage.h"
 #include <numeric>
+#include <execution>
 
 #define pDamages ((std::vector<float>*) pdata)
 #define pDamageData ((DamageData*)plistDamageData)
-DamageInnerData * pdata = nullptr;
 
+DamageInnerData* pdata = nullptr;
+volatile BOOL DamageThreadProcStarted = 0;
 
 DWORD WINAPI DamageThreadProc(LPVOID lpParameter)
 {
+    DamageThreadProcStarted = 1;
     DamageInnerData data{};
     pdata = &data;
 
@@ -19,6 +22,7 @@ DWORD WINAPI DamageThreadProc(LPVOID lpParameter)
 
 	HANDLE hEvent = CreateEvent(NULL, FALSE, FALSE, L"Local\\MFCIslandEvent");
     hEventtogglestat = CreateEvent(NULL, TRUE, FALSE, NULL);
+    hEventcal = CreateEvent(NULL, FALSE, FALSE, NULL);
 	
     if (!hEventtogglestat)
     {
@@ -30,10 +34,17 @@ DWORD WINAPI DamageThreadProc(LPVOID lpParameter)
 		return GetLastError();
 	}
 
+    if (!hEventcal)
+    {
+        return GetLastError();
+    }
+
     while (true)
     {
-        WaitForSingleObject(hEvent, INFINITE);
-        WaitForSingleObject(hEventtogglestat, INFINITE);
+ 
+        if (WaitForSingleObject(hEventtogglestat, INFINITE)) continue;
+        if (WaitForSingleObject(hEvent, INFINITE) != 0) continue;
+        
         
         EnterCriticalSection(&cs);
         switch (pElementalDamages->type)
@@ -67,6 +78,7 @@ DWORD WINAPI DamageThreadProc(LPVOID lpParameter)
         }
         LeaveCriticalSection(&cs);
 
+        SetEvent(hEventcal);
     }
 	return 0;
 }
@@ -75,16 +87,24 @@ DWORD WINAPI DamagecalcThreadProc(LPVOID lpParameter)
 {
     listDamageData* plistDamageData = (listDamageData*)lpParameter;
 
-    while (!pdata)
+    while (!pdata || !hEventtogglestat || !hEventcal)
     {
 		Sleep(50);
     }
+
 
 	ENSURE(pdata != nullptr);
     
     while (true)
     {
-        
+        if (clear) 
+        {
+            clear = 0;
+            EnterCriticalSection(&cs);
+            *pdata = DamageInnerData{};
+            LeaveCriticalSection(&cs);
+        }
+
         for (int i = 0; i < 8; i++)
         {
             if (pDamages[i].empty())
@@ -93,11 +113,6 @@ DWORD WINAPI DamagecalcThreadProc(LPVOID lpParameter)
             }
 
             EnterCriticalSection(&cs);
-            if (clear)
-            {
-                *pdata = DamageInnerData{};
-                clear = 0;
-            }
             std::vector<float> temp = pDamages[i];
             LeaveCriticalSection(&cs);
 
@@ -107,21 +122,27 @@ DWORD WINAPI DamagecalcThreadProc(LPVOID lpParameter)
             }
 
             pDamageData[i].max = *std::max_element(temp.begin(), temp.end());
-            pDamageData[i].total = std::accumulate(temp.begin(), temp.end(), 0LL);
-
+            pDamageData[i].total = std::reduce(std::execution::unseq, temp.begin(), temp.end(), 0LL, [](__int64 acc, float damageval) {return acc + static_cast<__int64>(damageval);});
             int n = (int)temp.size();
-            float mean = pDamageData[i].total / static_cast<float>(n);
-            float sum = 0.0f;
-            for (float pDamage : temp)
-            {
-                sum += (mean - pDamage) * (mean - pDamage);
+            pDamageData[i].count = n;
 
-            }
+            float mean = pDamageData[i].total / static_cast<float>(n);
+            float sum = std::reduce(std::execution::unseq, temp.begin(), temp.end(), 0.0f,
+                [mean](float acc, float damageval)
+                {
+                    
+                    return acc + (mean - damageval) * (mean - damageval);;
+                }
+            );
+
             pDamageData[i].deviation = (float)sqrt(sum / n);
 
         }
-        Sleep(250);
+        Sleep(50);
 
+        loop:if (WaitForSingleObject(__notnull hEventcal, INFINITE) != 0) goto loop;
+
+        
 
     }
 }

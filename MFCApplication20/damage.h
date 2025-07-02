@@ -27,6 +27,7 @@ struct DamageData
     float max;
     float deviation;
     INT64 total;
+    int count;
 };
 
 
@@ -61,5 +62,4 @@ DWORD WINAPI DamagecalcThreadProc(LPVOID lpParameter);
 inline volatile BOOL clear = 0;
 inline CRITICAL_SECTION cs;
 inline HANDLE hEventtogglestat;
-
-
+inline HANDLE hEventcal;
