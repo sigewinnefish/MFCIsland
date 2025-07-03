@@ -124,6 +124,7 @@ void DamagePage::initdelaycbox()
 	m_delalyctl.AddString(L"1000  ms"); //2
 	m_delalyctl.AddString(L"500   ms"); //3
 	m_delalyctl.AddString(L"250   ms"); //4
+	m_delalyctl.AddString(L"50   ms"); //5
 	m_delalyctl.AddString(L"不刷新");
 	m_delalyctl.SetCurSel(2);
 	SetTimer(1, 1000, NULL);
@@ -210,6 +211,10 @@ void DamagePage::OnCbnSelchangeComboDelay()
 		SetTimer(1, 250, NULL);
 		break;
 	case 5:
+		KillTimer(1);
+		SetTimer(1, 50, NULL);
+		break;
+	case 6:
 		KillTimer(1);
 		break;
 	default:

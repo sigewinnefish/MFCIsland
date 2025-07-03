@@ -131,7 +131,7 @@ DWORD WINAPI DamagecalcThreadProc(LPVOID lpParameter)
             pDamageData[i].deviation = (float)sqrt(sum / n);
 
         }
-        Sleep(200);
+        Sleep(50);
 
         loop: if (WaitForSingleObject(__notnull hEventcal, INFINITE) != 0) goto loop;
 
