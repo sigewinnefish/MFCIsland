@@ -16,11 +16,11 @@ DWORD WINAPI DamageThreadProc(LPVOID lpParameter)
     DamageInnerData data{};
     pdata = &data;
 
-	ElementalDamages* pElementalDamages = (ElementalDamages*)filemapping(ISLAND_ENVIRONMENT_EXTRA);
+    ElementalDamages* pElementalDamages = (ElementalDamages*)filemapping(ISLAND_ENVIRONMENT_EXTRA);
 
     listDamageData* plistDamageData = (listDamageData*)lpParameter;
 
-	hEvent = CreateEvent(NULL, FALSE, FALSE, L"Local\\MFCIslandEvent");
+    hEvent = CreateEvent(NULL, FALSE, FALSE, L"Local\\MFCIslandEvent");
     hEventtogglestat = CreateEvent(NULL, TRUE, FALSE, NULL);
     hEventcal = CreateEvent(NULL, FALSE, FALSE, NULL);
 
@@ -67,7 +67,6 @@ DWORD WINAPI DamageThreadProc(LPVOID lpParameter)
 
     while (true)
     {
-
         if (WaitForSingleObject(hEventtogglestat, INFINITE)) continue;
         if (WaitForSingleObject(hEvent, INFINITE) != 0) continue;
         if (flag) {
@@ -121,7 +120,7 @@ DWORD WINAPI DamagecalcThreadProc(LPVOID lpParameter)
 
             float mean = pDamageData[i].total / static_cast<float>(n);
             float sum = std::reduce(std::execution::unseq, temp.begin(), temp.end(), 0.0f,
-                [mean](float acc, float damageval)
+                [&mean](float acc, float damageval)
                 {
                     
                     return acc + (mean - damageval) * (mean - damageval);;

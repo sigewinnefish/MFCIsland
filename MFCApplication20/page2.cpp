@@ -130,17 +130,14 @@ void page2::OnBnClickedButtonExportasCsv()
     if (fd.DoModal() == IDOK) {
         CString fp = fd.GetPathName();
         LPCWSTR filename = fp.GetString();
-        HANDLE hFile = CreateFile(filename, GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
         CString txt;
         logedit.GetWindowText(txt);
-        
         DWORD size = txt.GetLength() * sizeof(WCHAR);
-
         ENSURE(size > 2);
 
+        HANDLE hFile = CreateFile(filename, GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
         char* pchar = new char[size - 2];
         RtlCopyMemory(pchar, (char*)(txt.GetString()), size - 2);
-        
         int i = 1;
         std::vector<WCHAR*> plines{ (WCHAR*)pchar };
         while (true)
@@ -154,9 +151,7 @@ void page2::OnBnClickedButtonExportasCsv()
             {
                 plines.push_back(a + 2);
                 *a = 0;
-
             }
-
             i++;
         }
 
@@ -232,7 +227,6 @@ void page2::OnBnClickedButtonExportasCsv()
                         result.append(plbracket + 1, (prbracket - plbracket - 1));
                         break;
                     }
-
 
                     plbracket = 0;
                     prbracket = 0;

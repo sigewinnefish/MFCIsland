@@ -94,7 +94,6 @@ void sethook(HANDLE h)
     DWORD tid;
     HMODULE hkb;
 
-    
 	hkb = GetModuleHandleW(L"kernelbase.dll");
 	TrueGetModuleHandleW = (pGetModuleHandleW)GetProcAddress(hkb,"GetModuleHandleW");
     detours_sethook(reinterpret_cast<PVOID*>(&TrueGetModuleHandleW), fGetModuleHandleW);
@@ -122,16 +121,24 @@ void sethook(HANDLE h)
 
     DWORD pid = GetProcessId(h); //通过进程句柄获取进程id
 
-    Sleep(5000);
-
     HandleData hd{ pid,0 };
-    tid = findtid(hd);
+
+    while (true)
+    {
+        tid = findtid(hd);
+        Sleep(50);
+        if (tid)
+        {
+            break;
+        }
+    }
+    
 	ENSURE(tid != 0);
     HHOOK hhook = SetWindowsHookExW(WH_GETMESSAGE, hp, (HMODULE)dh, tid);
-
+    PostThreadMessageW(tid, 0, 0, 0);
     Sleep(5000); //预留时间SetWindowsHookExW  否则hook不到
-
     UnhookWindowsHookEx(hhook);
+    FreeLibrary((HMODULE)dh);
 
 }
 
