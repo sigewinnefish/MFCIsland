@@ -37,4 +37,5 @@ public:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnBnClickedButtonClearlog();
 
+	afx_msg void OnBnClickedButtonExportasCsv();
 };

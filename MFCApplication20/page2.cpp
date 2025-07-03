@@ -40,6 +40,7 @@ BEGIN_MESSAGE_MAP(page2, CPropertyPage)
     ON_BN_CLICKED(IDC_BUTTON_WRITEFILE, &page2::OnBnClickedButtonWritefile)
     ON_MESSAGE(WM_LOGSENT, &page2::OnLogsent)
     ON_BN_CLICKED(IDC_BUTTON_CLEARLOG, &page2::OnBnClickedButtonClearlog)
+    ON_BN_CLICKED(IDC_BUTTON_EXPORTAS_CSV, &page2::OnBnClickedButtonExportasCsv)
 END_MESSAGE_MAP()
 
 
@@ -51,8 +52,8 @@ void page2::OnBnClickedButtonLog()
     if (!enablelog)
     {
         logbutton.SetWindowTextW(L"停止日志");
-        logedit.SetSel(-1, -1); // 选中编辑框中的所有文本
-        logedit.ReplaceSel(L"日志启动...\r\n"); // 替换选中的文本
+        //logedit.SetSel(-1, -1); // 选中编辑框中的所有文本
+        //logedit.ReplaceSel(L"日志启动...\r\n"); // 替换选中的文本
 
         enablelog = true;
         logbutton.enablelog = true;
@@ -60,8 +61,8 @@ void page2::OnBnClickedButtonLog()
     else
     {
         logbutton.SetWindowTextW(L"开启日志");
-        logedit.SetSel(-1, -1); // 选中编辑框中的所有文本
-        logedit.ReplaceSel(L"日志停止...\r\n"); // 替换选中的文本
+        //logedit.SetSel(-1, -1); // 选中编辑框中的所有文本
+        //logedit.ReplaceSel(L"日志停止...\r\n"); // 替换选中的文本
 
         enablelog = false;
         logbutton.enablelog = false;
@@ -121,4 +122,139 @@ void page2::OnBnClickedButtonClearlog()
 
     logedit.SetWindowText(NULL);
 
+}
+
+void page2::OnBnClickedButtonExportasCsv()
+{
+    CFileDialog fd(FALSE, L"csv", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, L"CSV (*.csv)|*.csv|");
+    if (fd.DoModal() == IDOK) {
+        CString fp = fd.GetPathName();
+        LPCWSTR filename = fp.GetString();
+        HANDLE hFile = CreateFile(filename, GENERIC_WRITE, NULL, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+        CString txt;
+        logedit.GetWindowText(txt);
+        
+        DWORD size = txt.GetLength() * sizeof(WCHAR);
+
+        ENSURE(size > 2);
+
+        char* pchar = new char[size - 2];
+        RtlCopyMemory(pchar, (char*)(txt.GetString()), size - 2);
+        
+        int i = 1;
+        std::vector<WCHAR*> plines{ (WCHAR*)pchar };
+        while (true)
+        {
+            auto a = (WCHAR*)pchar + i;
+            if (*a == 0)
+            {
+                break;
+            }
+            if (*a == L'\r' && *(a + 2) == L'[')
+            {
+                plines.push_back(a + 2);
+                *a = 0;
+
+            }
+
+            i++;
+        }
+
+        WCHAR* plbracket = nullptr;
+        WCHAR* prbracket = nullptr;
+
+
+        enum MyEnum
+        {
+            type = 2,
+            damageType,
+            showType,
+            damage,
+            worldPos,
+            attackee,
+            elementReactionType,
+
+        };
+
+        constexpr WCHAR comma = L',';
+        std::wstring result;
+        result.append(L"type,damageType,showType,damage,worldPos,attackee,elementReactionType\n");
+
+        for (WCHAR* pline : plines)
+        {
+
+            i = 0;
+            int bkcount = 0;
+
+            while (true)
+            {
+                WCHAR* a = pline + i;
+                if (*a == L'[')
+                {
+                    plbracket = a;
+                }
+
+                if (*a == L']')
+                {
+                    prbracket = a;
+                }
+                if (plbracket && prbracket)
+                {
+                    bkcount += 1;
+                    switch (bkcount)
+                    {
+                    case type:
+                        result.append(plbracket + 6, (prbracket - plbracket - 6));
+                        result.append(&comma, 1);
+                        break;
+                    case damageType:
+                        result.append(plbracket + 12, (prbracket - plbracket - 12));
+                        result.append(&comma, 1);
+                        break;
+                    case showType:
+                        result.append(plbracket + 10, (prbracket - plbracket - 10));
+                        result.append(&comma, 1);
+                        break;
+                    case damage:
+                        result.append(plbracket + 8, (prbracket - plbracket - 8));
+                        result.append(&comma, 1);
+                        break;
+                    case worldPos:
+                        result.append(plbracket + 1, (prbracket - plbracket - 1));
+                        result.append(&comma, 1);
+                        break;
+                    case attackee:
+                        result.append(plbracket + 1, (prbracket - plbracket - 1));
+                        result.append(&comma, 1);
+                        break;
+
+                    case elementReactionType:
+                        result.append(plbracket + 1, (prbracket - plbracket - 1));
+                        break;
+                    }
+
+
+                    plbracket = 0;
+                    prbracket = 0;
+                }
+
+                if (*a == 0)
+                {
+                    result.append(L"\n");
+                    break;
+                }
+                i++;
+            }
+
+        }
+
+        char* utf8result = new char[result.size()];
+        DWORD utf8resultsize = result.size();
+        WideCharToMultiByte(CP_UTF8, NULL, result.c_str(), -1, utf8result, utf8resultsize, NULL, NULL);
+        WriteFile(hFile, utf8result, utf8resultsize, NULL, NULL);
+
+        CloseHandle(hFile);
+        delete[] pchar;
+        delete[] utf8result;
+    }
 }

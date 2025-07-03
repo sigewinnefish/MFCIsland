@@ -8,7 +8,6 @@
 #define IDD_MFCAPPLICATION20_DIALOG     102
 #define IDS_ERROR_NOSUPPORT             102
 #define IDS_ERROR_CONFIG                103
-#define IDS_STRING104                   104
 #define IDS_ERROR_DLLLOAD               104
 #define IDD_PROPPAGE_1                  107
 #define IDD_PROPPAGE_2                  108
@@ -26,6 +25,8 @@
 #define IDC_CHECK_SetFieldOfView        1002
 #define IDC_BUTTON_WRITEFILE            1002
 #define IDC_BUTTON_SETGAMEPATH          1003
+#define IDC_BUTTON_EXPORT_CSV           1003
+#define IDC_BUTTON_EXPORTAS_CSV         1003
 #define IDC_CHECK2                      1004
 #define IDC_CHECK_SetEnableFogRendering 1004
 #define IDC_CHECK3                      1005
