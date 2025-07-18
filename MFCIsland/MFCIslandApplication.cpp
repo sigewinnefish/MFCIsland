@@ -1,12 +1,12 @@
 ﻿
-// MFCApplication20.cpp: 定义应用程序的类行为。
+// MFCIslandApplication.cpp: 定义应用程序的类行为。
 //
 
 #include "pch.h"
 #include "framework.h"
-#include "MFCApplication20.h"
+#include "MFCIslandApplication.h"
 #include "sheet.h"
-#include "page1.h"
+#include "MainPage.h"
 
 
 
@@ -15,32 +15,32 @@
 #endif
 
 
-// CMFCApplication20App
+// CMFCIslandApplicationApp
 
-BEGIN_MESSAGE_MAP(CMFCApplication20App, CWinApp)
+BEGIN_MESSAGE_MAP(CMFCIslandApplicationApp, CWinApp)
 	//ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
 	
 END_MESSAGE_MAP()
 
 
 
-// CMFCApplication20App 构造
+// CMFCIslandApplicationApp 构造
 
-CMFCApplication20App::CMFCApplication20App()
+CMFCIslandApplicationApp::CMFCIslandApplicationApp()
 {
 	// TODO: 在此处添加构造代码，
 	// 将所有重要的初始化放置在 InitInstance 中
 }
 
 
-// 唯一的 CMFCApplication20App 对象
+// 唯一的 CMFCIslandApplicationApp 对象
 
-CMFCApplication20App theApp;
+CMFCIslandApplicationApp theApp;
 
 
-// CMFCApplication20App 初始化
+// CMFCIslandApplicationApp 初始化
 
-BOOL CMFCApplication20App::InitInstance()
+BOOL CMFCIslandApplicationApp::InitInstance()
 {
 
 	CWinApp::InitInstance();

@@ -1,16 +1,16 @@
-﻿// page2.cpp: 实现文件
+﻿// Logpage.cpp: 实现文件
 //
 
 #include "pch.h"
-#include "page2.h"
+#include "LogPage.h"
 #include "logserver.h"
 
 
-// page2 对话框
+// Logpage 对话框
 
-IMPLEMENT_DYNAMIC(page2, CPropertyPage)
+IMPLEMENT_DYNAMIC(Logpage, CPropertyPage)
 
-page2::page2()
+Logpage::Logpage()
 	: CPropertyPage(IDD_PROPPAGE_2)
 
 {
@@ -23,11 +23,11 @@ page2::page2()
     }
 }
 
-page2::~page2()
+Logpage::~Logpage()
 {
 }
 
-void page2::DoDataExchange(CDataExchange* pDX)
+void Logpage::DoDataExchange(CDataExchange* pDX)
 {
     CPropertyPage::DoDataExchange(pDX);
     DDX_Control(pDX, IDC_BUTTON_LOG, logbutton);
@@ -35,18 +35,18 @@ void page2::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(page2, CPropertyPage)
-	ON_BN_CLICKED(IDC_BUTTON_LOG, &page2::OnBnClickedButtonLog)
-    ON_BN_CLICKED(IDC_BUTTON_WRITEFILE, &page2::OnBnClickedButtonWritefile)
-    ON_MESSAGE(WM_LOGSENT, &page2::OnLogsent)
-    ON_BN_CLICKED(IDC_BUTTON_CLEARLOG, &page2::OnBnClickedButtonClearlog)
-    ON_BN_CLICKED(IDC_BUTTON_EXPORTAS_CSV, &page2::OnBnClickedButtonExportasCsv)
+BEGIN_MESSAGE_MAP(Logpage, CPropertyPage)
+	ON_BN_CLICKED(IDC_BUTTON_LOG, &Logpage::OnBnClickedButtonLog)
+    ON_BN_CLICKED(IDC_BUTTON_WRITEFILE, &Logpage::OnBnClickedButtonWritefile)
+    ON_MESSAGE(WM_LOGSENT, &Logpage::OnLogsent)
+    ON_BN_CLICKED(IDC_BUTTON_CLEARLOG, &Logpage::OnBnClickedButtonClearlog)
+    ON_BN_CLICKED(IDC_BUTTON_EXPORTAS_CSV, &Logpage::OnBnClickedButtonExportasCsv)
 END_MESSAGE_MAP()
 
 
-// page2 消息处理程序
+// Logpage 消息处理程序
 
-void page2::OnBnClickedButtonLog()
+void Logpage::OnBnClickedButtonLog()
 {
 
     if (!enablelog)
@@ -72,7 +72,7 @@ void page2::OnBnClickedButtonLog()
 }
 
 
-void page2::OnBnClickedButtonWritefile()
+void Logpage::OnBnClickedButtonWritefile()
 {
     CFileDialog fd(FALSE, L"txt", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, L"TXT (*.txt)|*.txt|");
     if (fd.DoModal() == IDOK) {
@@ -88,7 +88,7 @@ void page2::OnBnClickedButtonWritefile()
     
 }
 
-afx_msg LRESULT page2::OnLogsent(WPARAM wParam, LPARAM lParam)
+afx_msg LRESULT Logpage::OnLogsent(WPARAM wParam, LPARAM lParam)
 {
     WCHAR* pchRequest = (WCHAR*)wParam;
     DWORD* cbBytesRead = (DWORD*)lParam;
@@ -107,7 +107,7 @@ afx_msg LRESULT page2::OnLogsent(WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-BOOL page2::OnInitDialog()
+BOOL Logpage::OnInitDialog()
 {
     CPropertyPage::OnInitDialog();
     logedit.SendMessage(EM_LIMITTEXT, 0);
@@ -117,14 +117,14 @@ BOOL page2::OnInitDialog()
     // 异常: OCX 属性页应返回 FALSE
 }
 
-void page2::OnBnClickedButtonClearlog()
+void Logpage::OnBnClickedButtonClearlog()
 {
 
     logedit.SetWindowText(NULL);
 
 }
 
-void page2::OnBnClickedButtonExportasCsv()
+void Logpage::OnBnClickedButtonExportasCsv()
 {
     CFileDialog fd(FALSE, L"csv", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, L"CSV (*.csv)|*.csv|");
     if (fd.DoModal() == IDOK) {

@@ -1,35 +1,35 @@
-﻿// logCedit.cpp: 实现文件
+﻿// LogCedit.cpp: 实现文件
 //
 
 #include "pch.h"
-#include "logCedit.h"
+#include "LogCedit.h"
 
 
-// logCedit
+// LogCedit
 
-IMPLEMENT_DYNAMIC(logCedit, CEdit)
+IMPLEMENT_DYNAMIC(LogCedit, CEdit)
 
-logCedit::logCedit()
+LogCedit::LogCedit()
 {
 
 }
 
-logCedit::~logCedit()
+LogCedit::~LogCedit()
 {
 }
 
 
-BEGIN_MESSAGE_MAP(logCedit, CEdit)
+BEGIN_MESSAGE_MAP(LogCedit, CEdit)
 	ON_WM_CTLCOLOR_REFLECT()
 END_MESSAGE_MAP()
 
 
 
-// logCedit 消息处理程序
+// LogCedit 消息处理程序
 
 
 
-HBRUSH logCedit::CtlColor(CDC* pDC, UINT)
+HBRUSH LogCedit::CtlColor(CDC* pDC, UINT)
 {
 
     static HBRUSH writebghBrush = ::CreateSolidBrush(RGB(255, 255, 255));

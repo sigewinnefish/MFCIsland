@@ -22,7 +22,7 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <ProjectGuid>{D6D6CD7B-85B7-2A18-10AC-1DE9199097E9}</ProjectGuid>
     <Keyword>MFCProj</Keyword>
-    <RootNamespace>MFCApplication20</RootNamespace>
+    <RootNamespace>MFCIsland</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>MFCIsland</ProjectName>
   </PropertyGroup>
@@ -217,12 +217,12 @@
     <ClInclude Include="include\detver.h" />
     <ClInclude Include="include\syelog.h" />
     <ClInclude Include="logbtn.h" />
-    <ClInclude Include="logCedit.h" />
+    <ClInclude Include="LogCedit.h" />
     <ClInclude Include="logserver.h" />
     <ClInclude Include="mainisland.h" />
-    <ClInclude Include="MFCApplication20.h" />
-    <ClInclude Include="page1.h" />
-    <ClInclude Include="page2.h" />
+    <ClInclude Include="MFCIslandApplication.h" />
+    <ClInclude Include="MainPage.h" />
+    <ClInclude Include="LogPage.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="phasejson.h" />
     <ClInclude Include="Resource.h" />
@@ -234,12 +234,12 @@
     <ClCompile Include="DamagePage.cpp" />
     <ClCompile Include="httprequest.cpp" />
     <ClCompile Include="logbtn.cpp" />
-    <ClCompile Include="logCedit.cpp" />
+    <ClCompile Include="LogCedit.cpp" />
     <ClCompile Include="logserver.cpp" />
     <ClCompile Include="mainisland.cpp" />
-    <ClCompile Include="MFCApplication20.cpp" />
-    <ClCompile Include="page1.cpp" />
-    <ClCompile Include="page2.cpp" />
+    <ClCompile Include="MFCIslandApplication.cpp" />
+    <ClCompile Include="MainPage.cpp" />
+    <ClCompile Include="LogPage.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -250,15 +250,13 @@
     <ClCompile Include="sheet.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="MFCApplication20.rc" />
+    <ResourceCompile Include="MFCIsland.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="res\MFCApplication20.rc2" />
+    <None Include="res\MFCIsland.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\MFCApplication20.ico" />
+    <Image Include="res\MFCIsland.ico" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\detours.lib" />

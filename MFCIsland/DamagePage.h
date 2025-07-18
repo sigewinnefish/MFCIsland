@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "afxdialogex.h"
-#include "MFCApplication20.h"
+#include "MFCIslandApplication.h"
 #include "damage.h"
 
 // DamagePage 对话框

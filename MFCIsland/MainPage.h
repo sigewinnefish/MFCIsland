@@ -4,17 +4,17 @@
 #include "httprequest.h"
 #include "phasejson.h"
 #include "appmessage.h"
-#include "MFCApplication20.h"
+#include "MFCIslandApplication.h"
 
-// page1 对话框
+// MainPage 对话框
 
-class page1 : public CPropertyPage
+class MainPage : public CPropertyPage
 {
-	DECLARE_DYNAMIC(page1)
+	DECLARE_DYNAMIC(MainPage)
 
 public:
-	page1();
-	virtual ~page1();
+	MainPage();
+	virtual ~MainPage();
 	virtual BOOL OnInitDialog();
 
 	BOOL initok{};

@@ -1,17 +1,17 @@
-﻿// page1.cpp: 实现文件
+﻿// MainPage.cpp: 实现文件
 //
 
 #include "pch.h"
-#include "page1.h"
+#include "MainPage.h"
 #include <vector>
 
 
 
-// page1 对话框
+// MainPage 对话框
 
-IMPLEMENT_DYNAMIC(page1, CPropertyPage)
+IMPLEMENT_DYNAMIC(MainPage, CPropertyPage)
 
-page1::page1()
+MainPage::MainPage()
 	: CPropertyPage(IDD_PROPPAGE_1)
 	, setfov(FALSE)
 	, disablefog(FALSE)
@@ -30,11 +30,11 @@ page1::page1()
 	pIslandEnvironment = (IslandEnvironment*)filemapping(ISLAND_ENVIRONMENT_NAME);
 }
 
-page1::~page1()
+MainPage::~MainPage()
 {
 }
 
-BOOL page1::OnInitDialog()
+BOOL MainPage::OnInitDialog()
 {
 	CPropertyPage::OnInitDialog();
 
@@ -101,7 +101,7 @@ BOOL page1::OnInitDialog()
 }
 
 
-void page1::DoDataExchange(CDataExchange* pDX)
+void MainPage::DoDataExchange(CDataExchange* pDX)
 {
 	CPropertyPage::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_BUTTON_GAMESTART, gamestartbtn);
@@ -128,29 +128,29 @@ void page1::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(page1, CPropertyPage)
-	ON_BN_CLICKED(IDC_BUTTON_GAMESTART, &page1::OnBnClickedButtonGamestart)
-	ON_BN_CLICKED(IDC_BUTTON_SETGAMEPATH, &page1::OnBnClickedButtonSetgamedir)
-	ON_BN_CLICKED(IDC_CHECK_NOTINJECT, &page1::OnBnClickedCheckNotinject)
-	ON_BN_CLICKED(IDC_CHECK_SetFieldOfView, &page1::OnBnClickedCheckSetfieldofview)
-	ON_BN_CLICKED(IDC_CHECK_SetEnableFogRendering, &page1::OnBnClickedCheckSetenablefogrendering)
-	ON_EN_UPDATE(IDC_EDIT_FOV, &page1::OnEnUpdateEditFov)
-	ON_BN_CLICKED(IDC_CHECK_FixLowFovScene, &page1::OnBnClickedCheckFixlowfovscene)
-	ON_BN_CLICKED(IDC_CHECK_SetTargetFrameRate, &page1::OnBnClickedCheckSettargetframerate)
-	ON_EN_UPDATE(IDC_EDIT_FPS, &page1::OnEnUpdateEditFps)
-	ON_BN_CLICKED(IDC_CHECK_SetupQuestBanner, &page1::OnBnClickedCheckSetupquestbanner)
-	ON_BN_CLICKED(IDC_CHECK_OpenTeam, &page1::OnBnClickedCheckOpenteam)
-	ON_BN_CLICKED(IDC_CHECK10_DisableEventCameraMove, &page1::OnBnClickedCheck10Disableeventcameramove)
-	ON_BN_CLICKED(IDC_CHECK_ShowOneDamageTextEx, &page1::OnBnClickedCheckShowonedamagetextex)
-	ON_BN_CLICKED(IDC_CHECK_RedirectCombineEntry, &page1::OnBnClickedCheckRedirectcombineentry)
-	ON_BN_CLICKED(IDC_CHECK_SwitchInputDeviceToTouchScreen, &page1::OnBnClickedCheckSwitchinputdevicetotouchscreen)
-	ON_BN_CLICKED(IDC_BUTTON_GETCONFIG, &page1::OnBnClickedButtonGetconfig)
-	ON_MESSAGE(WM_GAME_END, &page1::OnGameEnd)
-	ON_MESSAGE(WM_GAME_RUNNING, &page1::OnGameRunning)
+BEGIN_MESSAGE_MAP(MainPage, CPropertyPage)
+	ON_BN_CLICKED(IDC_BUTTON_GAMESTART, &MainPage::OnBnClickedButtonGamestart)
+	ON_BN_CLICKED(IDC_BUTTON_SETGAMEPATH, &MainPage::OnBnClickedButtonSetgamedir)
+	ON_BN_CLICKED(IDC_CHECK_NOTINJECT, &MainPage::OnBnClickedCheckNotinject)
+	ON_BN_CLICKED(IDC_CHECK_SetFieldOfView, &MainPage::OnBnClickedCheckSetfieldofview)
+	ON_BN_CLICKED(IDC_CHECK_SetEnableFogRendering, &MainPage::OnBnClickedCheckSetenablefogrendering)
+	ON_EN_UPDATE(IDC_EDIT_FOV, &MainPage::OnEnUpdateEditFov)
+	ON_BN_CLICKED(IDC_CHECK_FixLowFovScene, &MainPage::OnBnClickedCheckFixlowfovscene)
+	ON_BN_CLICKED(IDC_CHECK_SetTargetFrameRate, &MainPage::OnBnClickedCheckSettargetframerate)
+	ON_EN_UPDATE(IDC_EDIT_FPS, &MainPage::OnEnUpdateEditFps)
+	ON_BN_CLICKED(IDC_CHECK_SetupQuestBanner, &MainPage::OnBnClickedCheckSetupquestbanner)
+	ON_BN_CLICKED(IDC_CHECK_OpenTeam, &MainPage::OnBnClickedCheckOpenteam)
+	ON_BN_CLICKED(IDC_CHECK10_DisableEventCameraMove, &MainPage::OnBnClickedCheck10Disableeventcameramove)
+	ON_BN_CLICKED(IDC_CHECK_ShowOneDamageTextEx, &MainPage::OnBnClickedCheckShowonedamagetextex)
+	ON_BN_CLICKED(IDC_CHECK_RedirectCombineEntry, &MainPage::OnBnClickedCheckRedirectcombineentry)
+	ON_BN_CLICKED(IDC_CHECK_SwitchInputDeviceToTouchScreen, &MainPage::OnBnClickedCheckSwitchinputdevicetotouchscreen)
+	ON_BN_CLICKED(IDC_BUTTON_GETCONFIG, &MainPage::OnBnClickedButtonGetconfig)
+	ON_MESSAGE(WM_GAME_END, &MainPage::OnGameEnd)
+	ON_MESSAGE(WM_GAME_RUNNING, &MainPage::OnGameRunning)
 END_MESSAGE_MAP()
 
 
-void page1::CheckSetfieldofviewextra() 
+void MainPage::CheckSetfieldofviewextra() 
 {
 	if (!setfov)
 	{
@@ -169,7 +169,7 @@ void page1::CheckSetfieldofviewextra()
 	}
 };
 
-void page1::CheckSetfpsextra()
+void MainPage::CheckSetfpsextra()
 {
 	if (!EnableSetTargetFrameRate)
 	{
@@ -186,7 +186,7 @@ void page1::CheckSetfpsextra()
 	}
 };
 
-void page1::writeconfigtoreg()
+void MainPage::writeconfigtoreg()
 {
 	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("MickeyWonder"), pIslandEnvironment->FunctionOffsets.MickeyWonder);
 	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("MickeyWonderPartner"), pIslandEnvironment->FunctionOffsets.MickeyWonderPartner);
@@ -212,7 +212,7 @@ void page1::writeconfigtoreg()
 
 
 
-void page1::OnBnClickedButtonGamestart()
+void MainPage::OnBnClickedButtonGamestart()
 {
 	if (pIslandEnvironment->FunctionOffsets.MickeyWonder == NULL)
 	{
@@ -248,7 +248,7 @@ void page1::OnBnClickedButtonGamestart()
 
 }
 
-void page1::OnBnClickedButtonSetgamedir()
+void MainPage::OnBnClickedButtonSetgamedir()
 {
 
 	CFileDialog fd(TRUE);
@@ -261,14 +261,14 @@ void page1::OnBnClickedButtonSetgamedir()
 	}
 }
 
-void page1::OnBnClickedCheckNotinject()
+void MainPage::OnBnClickedCheckNotinject()
 {
 	UpdateData(TRUE);
 	AfxGetApp()->WriteProfileInt(_T("Settings"), _T("NoInject"), noinject);
 
 }
 
-void page1::OnBnClickedCheckSetfieldofview()
+void MainPage::OnBnClickedCheckSetfieldofview()
 {
 	UpdateData(TRUE);
 	pIslandEnvironment->EnableSetFieldOfView = setfov;
@@ -277,14 +277,14 @@ void page1::OnBnClickedCheckSetfieldofview()
 
 }
 
-void page1::OnBnClickedCheckSetenablefogrendering()
+void MainPage::OnBnClickedCheckSetenablefogrendering()
 {
 	UpdateData(TRUE);
 	pIslandEnvironment->DisableFog = disablefog;
 	AfxGetApp()->WriteProfileInt(_T("Settings"), _T("DisableFog"), disablefog);
 }
 
-void page1::OnEnUpdateEditFov()
+void MainPage::OnEnUpdateEditFov()
 {
 	if (!initok)
 	{
@@ -296,7 +296,7 @@ void page1::OnEnUpdateEditFov()
 
 }
 
-void page1::OnBnClickedCheckFixlowfovscene()
+void MainPage::OnBnClickedCheckFixlowfovscene()
 {
 
 	UpdateData(TRUE);
@@ -304,7 +304,7 @@ void page1::OnBnClickedCheckFixlowfovscene()
 	AfxGetApp()->WriteProfileInt(_T("Settings"), _T("FixLowFovScene"), FixLowFovScene);
 }
 
-void page1::OnBnClickedCheckSettargetframerate()
+void MainPage::OnBnClickedCheckSettargetframerate()
 {
 	UpdateData(TRUE);
 	pIslandEnvironment->EnableSetTargetFrameRate = EnableSetTargetFrameRate;
@@ -313,7 +313,7 @@ void page1::OnBnClickedCheckSettargetframerate()
 	
 }
 
-void page1::OnEnUpdateEditFps()
+void MainPage::OnEnUpdateEditFps()
 {
 	if (!initok)
 	{
@@ -324,49 +324,49 @@ void page1::OnEnUpdateEditFps()
 	AfxGetApp()->WriteProfileInt(_T("Settings"), _T("Fps"), fps);
 }
 
-void page1::OnBnClickedCheckSetupquestbanner()
+void MainPage::OnBnClickedCheckSetupquestbanner()
 {
 	UpdateData(TRUE);
 	pIslandEnvironment->HideQuestBanner = HideQuestBanner;
 	AfxGetApp()->WriteProfileInt(_T("Settings"), _T("HideQuestBanner"), HideQuestBanner);
 }
 
-void page1::OnBnClickedCheckOpenteam()
+void MainPage::OnBnClickedCheckOpenteam()
 {
 	UpdateData(TRUE);
 	pIslandEnvironment->RemoveOpenTeamProgress = RemoveOpenTeamProgress;
 	AfxGetApp()->WriteProfileInt(_T("Settings"), _T("RemoveOpenTeamProgress"), RemoveOpenTeamProgress);
 }
 
-void page1::OnBnClickedCheck10Disableeventcameramove()
+void MainPage::OnBnClickedCheck10Disableeventcameramove()
 {
 	UpdateData(TRUE);
 	pIslandEnvironment->DisableEventCameraMove = DisableEventCameraMove;
 	AfxGetApp()->WriteProfileInt(_T("Settings"), _T("DisableEventCameraMove"), DisableEventCameraMove);
 }
 
-void page1::OnBnClickedCheckShowonedamagetextex()
+void MainPage::OnBnClickedCheckShowonedamagetextex()
 {
 	UpdateData(TRUE);
 	pIslandEnvironment->DisableShowDamageText = DisableShowDamageText;
 	AfxGetApp()->WriteProfileInt(_T("Settings"), _T("DisableShowDamageText"), DisableShowDamageText);
 }
 
-void page1::OnBnClickedCheckRedirectcombineentry()
+void MainPage::OnBnClickedCheckRedirectcombineentry()
 {
 	UpdateData(TRUE);
 	pIslandEnvironment->RedirectCombineEntry = RedirectCombineEntry;
 	AfxGetApp()->WriteProfileInt(_T("Settings"), _T("RedirectCombineEntry"), RedirectCombineEntry);
 }
 
-void page1::OnBnClickedCheckSwitchinputdevicetotouchscreen()
+void MainPage::OnBnClickedCheckSwitchinputdevicetotouchscreen()
 {
 	UpdateData(TRUE);
 	pIslandEnvironment->UsingTouchScreen = UsingTouchScreen;
 	AfxGetApp()->WriteProfileInt(_T("Settings"), _T("UsingTouchScreen"), UsingTouchScreen);
 }
 	
-void page1::OnBnClickedButtonGetconfig()
+void MainPage::OnBnClickedButtonGetconfig()
 {
 	std::vector<char> config;
 	httprequest(&config);
@@ -375,7 +375,7 @@ void page1::OnBnClickedButtonGetconfig()
 	
 }
 
-afx_msg LRESULT page1::OnGameEnd(WPARAM wParam, LPARAM lParam)
+afx_msg LRESULT MainPage::OnGameEnd(WPARAM wParam, LPARAM lParam)
 {
 	SetDlgItemText(IDC_STATIC_STATUS, L"游戏进程结束");
 	GetDlgItem(IDC_CHECK_SwitchInputDeviceToTouchScreen)->EnableWindow(TRUE);
@@ -383,7 +383,7 @@ afx_msg LRESULT page1::OnGameEnd(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-afx_msg LRESULT page1::OnGameRunning(WPARAM wParam, LPARAM lParam)
+afx_msg LRESULT MainPage::OnGameRunning(WPARAM wParam, LPARAM lParam)
 {
 	SetDlgItemText(IDC_STATIC_STATUS, L"游戏正在运行");
 	GetDlgItem(IDC_CHECK_SwitchInputDeviceToTouchScreen)->EnableWindow(FALSE);

@@ -1,15 +1,15 @@
 #pragma once
 
 
-// logCedit
+// LogCedit
 
-class logCedit : public CEdit
+class LogCedit : public CEdit
 {
-	DECLARE_DYNAMIC(logCedit)
+	DECLARE_DYNAMIC(LogCedit)
 
 public:
-	logCedit();
-	virtual ~logCedit();
+	LogCedit();
+	virtual ~LogCedit();
 
 protected:
 	DECLARE_MESSAGE_MAP()

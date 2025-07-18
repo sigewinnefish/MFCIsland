@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MFCApplication20.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="framework.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -30,13 +27,7 @@
     <ClInclude Include="pch.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="page1.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="sheet.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="page2.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="mainisland.h">
@@ -57,7 +48,7 @@
     <ClInclude Include="logbtn.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="logCedit.h">
+    <ClInclude Include="LogCedit.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="DamagePage.h">
@@ -75,21 +66,21 @@
     <ClInclude Include="include\detver.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="MFCIslandApplication.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="MainPage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="LogPage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MFCApplication20.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="page1.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="sheet.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="page2.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="mainisland.cpp">
@@ -107,7 +98,7 @@
     <ClCompile Include="logbtn.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="logCedit.cpp">
+    <ClCompile Include="LogCedit.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="DamagePage.cpp">
@@ -116,21 +107,28 @@
     <ClCompile Include="damage.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="MFCIslandApplication.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MainPage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="LogPage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="MFCApplication20.rc">
+    <ResourceCompile Include="MFCIsland.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\MFCApplication20.rc2">
+    <None Include="res\MFCIsland.rc2">
       <Filter>资源文件</Filter>
     </None>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\MFCApplication20.ico">
+    <Image Include="res\MFCIsland.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

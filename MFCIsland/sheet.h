@@ -1,6 +1,6 @@
 #pragma once
-#include "page1.h"
-#include "page2.h"
+#include "MainPage.h"
+#include "LogPage.h"
 #include "DamagePage.h"
 
 // sheet
@@ -11,8 +11,8 @@ class sheet : public CPropertySheet
 
 public:
 	virtual BOOL OnInitDialog();
-	page1 p1;
-	page2 p2;
+	MainPage p1;
+	Logpage p2;
 	DamagePage dp;
 	BOOL ONTOP = 0;
 

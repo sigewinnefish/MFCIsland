@@ -2,18 +2,18 @@
 #include "afxdialogex.h"
 #include "logbtn.h"
 #include "appmessage.h"
-#include "MFCApplication20.h"
-#include "logCedit.h"
+#include "MFCIslandApplication.h"
+#include "LogCedit.h"
 
-// page2 对话框
+// Logpage 对话框
 
-class page2 : public CPropertyPage
+class Logpage : public CPropertyPage
 {
-	DECLARE_DYNAMIC(page2)
+	DECLARE_DYNAMIC(Logpage)
 
 public:
-	page2();
-	virtual ~page2();
+	Logpage();
+	virtual ~Logpage();
 
 // 对话框数据
 #ifdef AFX_DESIGN_TIME
@@ -29,7 +29,7 @@ public:
 	afx_msg void OnBnClickedButtonWritefile();
 	
 	logbtn logbutton;
-	logCedit logedit;
+	LogCedit logedit;
 	BOOL enablelog = FALSE;
 protected:
 	afx_msg LRESULT OnLogsent(WPARAM wParam, LPARAM lParam);
