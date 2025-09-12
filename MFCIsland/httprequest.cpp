@@ -3,7 +3,8 @@
 
 
 constexpr wchar_t apihost[] = L"api.snapgenshin.com";
-constexpr wchar_t apipath[] = L"/client/UnlockerIsland_Compact2_5.7.0.json";
+constexpr wchar_t apipath[] = L"/client/IslandFeature_6.0.0.json";
+constexpr wchar_t apiheader[] = L"Snap Hutao/1.15.10.0";
 
 void httprequest(std::vector<char>* config)
 {
@@ -13,7 +14,7 @@ void httprequest(std::vector<char>* config)
     BOOL bResults = FALSE;
     HINTERNET  hSession = NULL, hConnect = NULL, hRequest = NULL;
     DWORD POLICY = WINHTTP_OPTION_REDIRECT_POLICY_ALWAYS;
-    hSession = WinHttpOpen(NULL, WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY, WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, NULL);
+    hSession = WinHttpOpen(apiheader, WINHTTP_ACCESS_TYPE_AUTOMATIC_PROXY, WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, NULL);
     if (hSession)
         hConnect = WinHttpConnect(hSession, apihost, INTERNET_DEFAULT_HTTPS_PORT, NULL);
 

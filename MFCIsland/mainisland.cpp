@@ -4,7 +4,8 @@
 #include "sheet.h"
 #include "resource.h"
 #include <detours.h>
-
+#include <pathcch.h>
+#pragma comment(lib, "Pathcch.lib")
 
 typedef HMODULE(WINAPI* pGetModuleHandleW)(LPCWSTR);
 typedef LONG(WINAPI* pGetCurrentPackageFamilyName)(UINT32*, PWSTR);
@@ -89,8 +90,39 @@ static HMODULE WINAPI fGetModuleHandleW(_In_opt_ LPCWSTR lpModuleName)
 	return TrueGetModuleHandleW(lpModuleName);
 }
 
+void injectUsingRemoteThread(HANDLE h)
+{
+    HMODULE haddr = GetModuleHandleW(NULL);
+
+    //LoadLibrary(L"Snap.Hutao.UnlockerIsland.dll");
+    WCHAR dllPath[MAX_PATH];
+    GetModuleFileNameW(NULL, dllPath, MAX_PATH);
+    PathCchRemoveFileSpec(dllPath, MAX_PATH);
+    PathCchCombine(dllPath, MAX_PATH, dllPath, L"Snap.Hutao.UnlockerIsland.dll");
+
+    DWORD pid = GetProcessId(h);
+    HANDLE hOpenProcess = OpenProcess(PROCESS_ALL_ACCESS, 0, pid);
+    LPVOID ptr = VirtualAllocEx(hOpenProcess, NULL, 4096, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+    BOOL iswrite = WriteProcessMemory(hOpenProcess, ptr, dllPath, wcslen(dllPath) * 2 + 2, NULL);
+   
+    HMODULE hm = GetModuleHandleW(L"kernel32.dll");
+    FARPROC hp = GetProcAddress(hm, "LoadLibraryW");
+    
+    Sleep(10000);
+    HANDLE hcrt = CreateRemoteThread(hOpenProcess, NULL, NULL, (LPTHREAD_START_ROUTINE)hp, ptr, NULL, NULL);
+    WaitForSingleObject(hcrt, INFINITE);
+    BOOL free = VirtualFreeEx(hOpenProcess, ptr, 0, MEM_RELEASE);
+    CloseHandle(hcrt);
+    FreeLibrary(hm);
+
+
+}
+
+
+
 void sethook(HANDLE h)
 {
+    Sleep(8000);
     DWORD tid;
     HMODULE hkb;
 
@@ -161,6 +193,7 @@ DWORD WINAPI ThreadProc(LPVOID lpParameter)
     startprocess(((CString*)lpParameter)->GetString(), h);
     PostMessage(((sheet*)(AfxGetApp()->GetMainWnd()))->p1.m_hWnd, WM_GAME_RUNNING, 0, 0);
     sethook(h);
+    //injectUsingRemoteThread(h);
     WaitForSingleObject(h, INFINITE);
     PostMessage(((sheet*)(AfxGetApp()->GetMainWnd()))->p1.m_hWnd, WM_GAME_END, 0 ,0);
     return 0;
