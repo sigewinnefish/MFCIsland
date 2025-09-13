@@ -10,49 +10,15 @@ typedef HMODULE(WINAPI* pGetModuleHandleW)(LPCWSTR);
 typedef LONG(WINAPI* pGetCurrentPackageFamilyName)(UINT32*, PWSTR);
 static pGetModuleHandleW TrueGetModuleHandleW = nullptr;
 
-void startprocess(CString path,HANDLE& h)
+void startprocess(CString path, PROCESS_INFORMATION* ppi)
 {
-	SHELLEXECUTEINFO execinfo{};
-	execinfo.cbSize = sizeof(execinfo);
-	execinfo.fMask = execinfo::fMask;
-	execinfo.hwnd = execinfo::hwnd;
-	execinfo.nShow = execinfo::nShow;
-	execinfo.lpFile = path;
-    BOOL started = ShellExecuteEx(&execinfo);
-    h = execinfo.hProcess;
-}
+    STARTUPINFOW si{};
+    si.cb = sizeof(si);
 
-static HANDLE loaddll(LPCWSTR dllpath)
-{
-    HANDLE h;
-    h = LoadLibrary(dllpath);
-    return h;
-}
-
-static BOOL IsMainWindow(HWND handle)
-{
-    return GetWindow(handle, GW_OWNER) == (HWND)0 && IsWindowVisible(handle);
-}
-
-static BOOL CALLBACK EnumWindowsProc(HWND hwnd, LPARAM lParam) {
-
-    HandleData& data = *(HandleData*)lParam;
-    DWORD pid = 0;
-    GetWindowThreadProcessId(hwnd, &pid);
-    if (data.pid != pid || !IsMainWindow(hwnd))
-        return TRUE;
-
-    data.hwnd = hwnd;
-    return FALSE;
-
-}
-
-
-static DWORD findtid(HandleData hd)
-{
-    EnumWindows(EnumWindowsProc, (LPARAM)&hd);
-    DWORD tid = GetWindowThreadProcessId(_Notnull_ hd.hwnd, 0);
-    return tid;
+    WCHAR workdir[MAX_PATH];
+	wcsncpy_s(workdir, path, MAX_PATH);
+    PathCchRemoveFileSpec(workdir, MAX_PATH);
+    BOOL started = CreateProcessW(path, NULL, NULL, NULL, FALSE, CREATE_SUSPENDED, NULL, workdir, &si, ppi);
 }
 
 static LONG WINAPI fGetCurrentPackageFamilyName(_Inout_ UINT32* packageFamilyNameLength, _Out_writes_opt_(*packageFamilyNameLength) PWSTR packageFamilyName)
@@ -73,15 +39,13 @@ static HMODULE WINAPI fGetModuleHandleW(_In_opt_ LPCWSTR lpModuleName)
 	return TrueGetModuleHandleW(lpModuleName);
 }
 
-void injectUsingRemoteThread(HANDLE h)
+static void injectUsingRemoteThread(DWORD pid)
 {
-    HMODULE haddr = GetModuleHandleW(NULL);
     WCHAR dllPath[MAX_PATH];
     GetModuleFileNameW(NULL, dllPath, MAX_PATH);
     PathCchRemoveFileSpec(dllPath, MAX_PATH);
     PathCchCombine(dllPath, MAX_PATH, dllPath, L"Snap.Hutao.UnlockerIsland.dll");
 
-    DWORD pid = GetProcessId(h);
     HANDLE hOpenProcess = OpenProcess(PROCESS_ALL_ACCESS, 0, pid);
     LPVOID ptr = VirtualAllocEx(hOpenProcess, NULL, 4096, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
     BOOL iswrite = WriteProcessMemory(hOpenProcess, ptr, dllPath, wcslen(dllPath) * 2 + 2, NULL);
@@ -112,12 +76,12 @@ LPVOID filemapping(PCWSTR NAME)
 
 DWORD WINAPI ThreadProc(LPVOID lpParameter)
 {
-    HANDLE h{};
-    startprocess(((CString*)lpParameter)->GetString(), h);
+    PROCESS_INFORMATION pi{};
+    startprocess(((CString*)lpParameter)->GetString(), &pi);
     PostMessage(((sheet*)(AfxGetApp()->GetMainWnd()))->p1.m_hWnd, WM_GAME_RUNNING, 0, 0);
-    //sethook(h);
-    injectUsingRemoteThread(h);
-    WaitForSingleObject(h, INFINITE);
+    injectUsingRemoteThread(pi.dwProcessId);
+    ResumeThread(pi.hThread);
+    WaitForSingleObject(pi.hProcess, INFINITE);
     PostMessage(((sheet*)(AfxGetApp()->GetMainWnd()))->p1.m_hWnd, WM_GAME_END, 0 ,0);
     return 0;
 }

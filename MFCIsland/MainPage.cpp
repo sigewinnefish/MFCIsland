@@ -230,8 +230,13 @@ void MainPage::OnBnClickedButtonGamestart()
 
 	if (noinject)
 	{
-		HANDLE h{};
-		startprocess(gamepath.GetString(), h);
+		SHELLEXECUTEINFO execinfo{};
+		execinfo.cbSize = sizeof(execinfo);
+		execinfo.fMask = execinfo::fMask;
+		execinfo.hwnd = execinfo::hwnd;
+		execinfo.nShow = execinfo::nShow;
+		execinfo.lpFile = gamepath.GetString();
+		BOOL started = ShellExecuteEx(&execinfo);
 		SetDlgItemText(IDC_STATIC_STATUS, L"");
 	}
 	else

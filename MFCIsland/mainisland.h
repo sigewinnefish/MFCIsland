@@ -81,7 +81,6 @@ namespace execinfo
 
 };
 
-void startprocess(CString path, HANDLE& h);
-void sethook(HANDLE h);
+void startprocess(CString path, PROCESS_INFORMATION* ppi);
 LPVOID filemapping(PCWSTR NAME);
 DWORD WINAPI ThreadProc(LPVOID lpParameter);
