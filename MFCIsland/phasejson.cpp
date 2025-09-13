@@ -22,5 +22,8 @@ void phasejson(std::vector<char>* config, IslandEnvironment* pIslandEnvironment)
 	pIslandEnvironment->FunctionOffsets.SwitchInputDeviceToTouchScreen = UnlockerIsland_json["Chinese"]["SwitchInputDeviceToTouchScreen"];
 	pIslandEnvironment->FunctionOffsets.MickeyWonderCombineEntry = UnlockerIsland_json["Chinese"]["MickeyWonderCombineEntryMethod"];
 	pIslandEnvironment->FunctionOffsets.MickeyWonderCombineEntryPartner = UnlockerIsland_json["Chinese"]["MickeyWonderCombineEntryMethodPartner"];
-
+	pIslandEnvironment->FunctionOffsets.GameManagerAwake = UnlockerIsland_json["Chinese"]["GameManagerAwake"];
+	//pIslandEnvironment->FunctionOffsets.GetText = UnlockerIsland_json["Chinese"]["GetText"];
+	//pIslandEnvironment->FunctionOffsets.GetComponentByName = UnlockerIsland_json["Chinese"]["GetComponentByName"];
+	//pIslandEnvironment->FunctionOffsets.OnBundleDownloadCheckFinishNext = UnlockerIsland_json["Chinese"]["OnBundleDownloadCheckFinishNext"];
 };

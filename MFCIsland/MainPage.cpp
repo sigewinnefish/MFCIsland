@@ -69,6 +69,7 @@ BOOL MainPage::OnInitDialog()
 	pIslandEnvironment->RedirectCombineEntry = RedirectCombineEntry;
 	pIslandEnvironment->UsingTouchScreen = UsingTouchScreen;
 
+	pIslandEnvironment->FunctionOffsets.GameManagerAwake = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("GameManagerAwake"), NULL);
 	pIslandEnvironment->FunctionOffsets.MickeyWonder = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("MickeyWonder"), NULL);
 	pIslandEnvironment->FunctionOffsets.MickeyWonderPartner = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("MickeyWonderPartner"), NULL);
 	pIslandEnvironment->FunctionOffsets.MickeyWonderPartner2 = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("MickeyWonderPartner2"), NULL);
@@ -177,7 +178,6 @@ void MainPage::CheckSetfpsextra()
 		GetDlgItem(IDC_EDIT_FPS)->EnableWindow(FALSE);
 		GetDlgItem(IDC_SPIN_FPS)->EnableWindow(FALSE);
 
-
 	}
 	else
 	{
@@ -188,6 +188,7 @@ void MainPage::CheckSetfpsextra()
 
 void MainPage::writeconfigtoreg()
 {
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("GameManagerAwake"), pIslandEnvironment->FunctionOffsets.GameManagerAwake);
 	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("MickeyWonder"), pIslandEnvironment->FunctionOffsets.MickeyWonder);
 	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("MickeyWonderPartner"), pIslandEnvironment->FunctionOffsets.MickeyWonderPartner);
 	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("MickeyWonderPartner2"), pIslandEnvironment->FunctionOffsets.MickeyWonderPartner2);

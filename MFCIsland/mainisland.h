@@ -21,9 +21,13 @@ enum struct IslandState : int
 
 struct FunctionOffsets
 {
+    UINT32 GameManagerAwake;
     UINT32 MickeyWonder;
     UINT32 MickeyWonderPartner;
     UINT32 MickeyWonderPartner2;
+    //UINT32 OnBundleDownloadCheckFinishNext;
+    //UINT32 GetComponentByName;
+    //UINT32 GetText;
     UINT32 SetFieldOfView;
     UINT32 SetEnableFogRendering;
     UINT32 GetTargetFrameRate;
@@ -43,11 +47,11 @@ struct FunctionOffsets
 
 struct IslandEnvironment
 {
-    enum IslandState State;
+    //DWORD Size;
+    DWORD State;
     DWORD LastError;
-
+    //DWORD uid;
     FunctionOffsets FunctionOffsets;
-
     BOOL EnableSetFieldOfView;
     FLOAT FieldOfView;
     BOOL FixLowFovScene;
