@@ -1,6 +1,6 @@
 ﻿//{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ 生成的包含文件。
-// 供 MFCApplication20.rc 使用
+// 供 MFCIsland.rc 使用
 //
 #define IDM_ABOUTBOX                    0x0010
 #define IDD_ABOUTBOX                    100
@@ -48,6 +48,7 @@
 #define IDC_CHECK_FixLowFovScene        1013
 #define IDC_CHECK10                     1014
 #define IDC_CHECK10_DisableEventCameraMove 1014
+#define IDC_DisableEventCameraMove      1014
 #define IDC_SPIN1                       1015
 #define IDC_SPIN_FPS                    1015
 #define IDC_EDIT3                       1016
@@ -59,6 +60,7 @@
 #define IDC_EDIT_CONFIGPATH             1019
 #define IDC_RADIO1                      1020
 #define IDC_RADIO2                      1021
+#define IDC_CHECK_RemovePrimogemsClaimingRewards 1022
 #define IDC_CHECK11                     1025
 #define IDC_CHECK_NOTINJECT             1025
 #define IDC_EDIT_GAMEPATH               1026

@@ -66,22 +66,22 @@ public:
 	BOOL RemoveOpenTeamProgress;
 	afx_msg void OnBnClickedCheckOpenteam();
 	BOOL DisableEventCameraMove;
-	afx_msg void OnBnClickedCheck10Disableeventcameramove();
+	afx_msg void OnBnClickedDisableeventcameramove();
 	BOOL DisableShowDamageText;
 	afx_msg void OnBnClickedCheckShowonedamagetextex();
 	BOOL RedirectCombineEntry;
 	afx_msg void OnBnClickedCheckRedirectcombineentry();
 	BOOL UsingTouchScreen;
 	afx_msg void OnBnClickedCheckSwitchinputdevicetotouchscreen();
-
-
+	afx_msg void OnBnClickedCheckRemoveprimogemsclaimingrewards();
+	BOOL RemovePrimogemsClaimingRewards;
+	afx_msg void OnBnClickedButtonGetconfig();
 
 private:
 	IslandEnvironment* pIslandEnvironment;
 
-public:
-	afx_msg void OnBnClickedButtonGetconfig();
 protected:
 	afx_msg LRESULT OnGameEnd(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnGameRunning(WPARAM wParam, LPARAM lParam);
+
 };

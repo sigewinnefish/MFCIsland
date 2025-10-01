@@ -43,6 +43,8 @@ struct FunctionOffsets
     UINT32 SwitchInputDeviceToTouchScreen;
     UINT32 MickeyWonderCombineEntry;
     UINT32 MickeyWonderCombineEntryPartner;
+    UINT32 SetupResinList;
+    UINT32 ResinListAdd;
 };
 
 struct IslandEnvironment
@@ -64,6 +66,10 @@ struct IslandEnvironment
     BOOL DisableShowDamageText;
     BOOL UsingTouchScreen;
     BOOL RedirectCombineEntry;
+    BOOL ResinListItemId000106Allowed;
+    BOOL ResinListItemId000201Allowed;
+    BOOL ResinListItemId107009Allowed;
+    BOOL ResinListItemId220007Allowed;
 };
 
 namespace execinfo

@@ -26,6 +26,7 @@ MainPage::MainPage()
 	, UsingTouchScreen(FALSE)
 	, EnableSetTargetFrameRate(FALSE)
 	, pIslandEnvironment(nullptr)
+	, RemovePrimogemsClaimingRewards(FALSE)
 {
 	pIslandEnvironment = (IslandEnvironment*)filemapping(ISLAND_ENVIRONMENT_NAME);
 }
@@ -55,6 +56,7 @@ BOOL MainPage::OnInitDialog()
 	DisableShowDamageText = AfxGetApp()->GetProfileInt(_T("Settings"), _T("DisableShowDamageText"), NULL);
 	RedirectCombineEntry = AfxGetApp()->GetProfileInt(_T("Settings"), _T("RedirectCombineEntry"), NULL);
 	UsingTouchScreen = AfxGetApp()->GetProfileInt(_T("Settings"), _T("UsingTouchScreen"), NULL);
+	RemovePrimogemsClaimingRewards = AfxGetApp()->GetProfileInt(_T("Settings"), _T("RemovePrimogemsClaimingRewards"), NULL);
 
 	pIslandEnvironment->EnableSetFieldOfView = setfov;
 	pIslandEnvironment->DisableFog = disablefog;
@@ -68,6 +70,10 @@ BOOL MainPage::OnInitDialog()
 	pIslandEnvironment->DisableShowDamageText = DisableShowDamageText;
 	pIslandEnvironment->RedirectCombineEntry = RedirectCombineEntry;
 	pIslandEnvironment->UsingTouchScreen = UsingTouchScreen;
+	pIslandEnvironment->ResinListItemId000106Allowed = TRUE;
+	pIslandEnvironment->ResinListItemId000201Allowed = !RemovePrimogemsClaimingRewards;
+	pIslandEnvironment->ResinListItemId107009Allowed = TRUE;
+	pIslandEnvironment->ResinListItemId220007Allowed = TRUE;
 
 	pIslandEnvironment->FunctionOffsets.GameManagerAwake = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("GameManagerAwake"), NULL);
 	pIslandEnvironment->FunctionOffsets.MickeyWonder = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("MickeyWonder"), NULL);
@@ -88,6 +94,8 @@ BOOL MainPage::OnInitDialog()
 	pIslandEnvironment->FunctionOffsets.SwitchInputDeviceToTouchScreen = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("SwitchInputDeviceToTouchScreen"), NULL);
 	pIslandEnvironment->FunctionOffsets.MickeyWonderCombineEntry = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("MickeyWonderCombineEntry"), NULL);
 	pIslandEnvironment->FunctionOffsets.MickeyWonderCombineEntryPartner = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("MickeyWonderCombineEntryPartner"), NULL);
+	pIslandEnvironment->FunctionOffsets.SetupResinList = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("SetupResinList"), NULL);
+	pIslandEnvironment->FunctionOffsets.ResinListAdd = AfxGetApp()->GetProfileInt(_T("FunctionOffsets"), _T("ResinListAdd"), NULL);
 
 	fovspin.SetRange(0, 99);
 	fpsspin.SetRange(0, 720);
@@ -126,6 +134,7 @@ void MainPage::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_CHECK_ShowOneDamageTextEx, DisableShowDamageText);
 	DDX_Check(pDX, IDC_CHECK_RedirectCombineEntry, RedirectCombineEntry);
 	DDX_Check(pDX, IDC_CHECK_SwitchInputDeviceToTouchScreen, UsingTouchScreen);
+	DDX_Check(pDX, IDC_CHECK_RemovePrimogemsClaimingRewards, RemovePrimogemsClaimingRewards);
 }
 
 
@@ -141,13 +150,14 @@ BEGIN_MESSAGE_MAP(MainPage, CPropertyPage)
 	ON_EN_UPDATE(IDC_EDIT_FPS, &MainPage::OnEnUpdateEditFps)
 	ON_BN_CLICKED(IDC_CHECK_SetupQuestBanner, &MainPage::OnBnClickedCheckSetupquestbanner)
 	ON_BN_CLICKED(IDC_CHECK_OpenTeam, &MainPage::OnBnClickedCheckOpenteam)
-	ON_BN_CLICKED(IDC_CHECK10_DisableEventCameraMove, &MainPage::OnBnClickedCheck10Disableeventcameramove)
+	ON_BN_CLICKED(IDC_DisableEventCameraMove, &MainPage::OnBnClickedDisableeventcameramove)
 	ON_BN_CLICKED(IDC_CHECK_ShowOneDamageTextEx, &MainPage::OnBnClickedCheckShowonedamagetextex)
 	ON_BN_CLICKED(IDC_CHECK_RedirectCombineEntry, &MainPage::OnBnClickedCheckRedirectcombineentry)
 	ON_BN_CLICKED(IDC_CHECK_SwitchInputDeviceToTouchScreen, &MainPage::OnBnClickedCheckSwitchinputdevicetotouchscreen)
 	ON_BN_CLICKED(IDC_BUTTON_GETCONFIG, &MainPage::OnBnClickedButtonGetconfig)
 	ON_MESSAGE(WM_GAME_END, &MainPage::OnGameEnd)
 	ON_MESSAGE(WM_GAME_RUNNING, &MainPage::OnGameRunning)
+	ON_BN_CLICKED(IDC_CHECK_RemovePrimogemsClaimingRewards, &MainPage::OnBnClickedCheckRemoveprimogemsclaimingrewards)
 END_MESSAGE_MAP()
 
 
@@ -207,6 +217,8 @@ void MainPage::writeconfigtoreg()
 	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("SwitchInputDeviceToTouchScreen"), pIslandEnvironment->FunctionOffsets.SwitchInputDeviceToTouchScreen);
 	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("MickeyWonderCombineEntry"), pIslandEnvironment->FunctionOffsets.MickeyWonderCombineEntry);
 	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("MickeyWonderCombineEntryPartner"), pIslandEnvironment->FunctionOffsets.MickeyWonderCombineEntryPartner);
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("SetupResinList"), pIslandEnvironment->FunctionOffsets.SetupResinList);
+	AfxGetApp()->WriteProfileInt(_T("FunctionOffsets"), _T("ResinListAdd"), pIslandEnvironment->FunctionOffsets.ResinListAdd);
 
 }
 
@@ -344,7 +356,7 @@ void MainPage::OnBnClickedCheckOpenteam()
 	AfxGetApp()->WriteProfileInt(_T("Settings"), _T("RemoveOpenTeamProgress"), RemoveOpenTeamProgress);
 }
 
-void MainPage::OnBnClickedCheck10Disableeventcameramove()
+void MainPage::OnBnClickedDisableeventcameramove()
 {
 	UpdateData(TRUE);
 	pIslandEnvironment->DisableEventCameraMove = DisableEventCameraMove;
@@ -381,6 +393,13 @@ void MainPage::OnBnClickedButtonGetconfig()
 	
 }
 
+void MainPage::OnBnClickedCheckRemoveprimogemsclaimingrewards()
+{
+	UpdateData(TRUE);
+	pIslandEnvironment->ResinListItemId000201Allowed = !RemovePrimogemsClaimingRewards;
+	AfxGetApp()->WriteProfileInt(_T("Settings"), _T("RemovePrimogemsClaimingRewards"), RemovePrimogemsClaimingRewards);
+}
+
 afx_msg LRESULT MainPage::OnGameEnd(WPARAM wParam, LPARAM lParam)
 {
 	SetDlgItemText(IDC_STATIC_STATUS, L"游戏进程结束");
@@ -396,3 +415,6 @@ afx_msg LRESULT MainPage::OnGameRunning(WPARAM wParam, LPARAM lParam)
 	GetDlgItem(IDC_BUTTON_GAMESTART)->EnableWindow(FALSE);
 	return 0;
 }
+
+
+
